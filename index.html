@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Cierre Transportes Tango</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon-192.png" sizes="192x192" type="image/png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <style>
+    :root{
+      --bg:#f3f4f6; --card:#ffffff; --ink:#111827; --muted:#6b7280;
+      --line:#d1d5db; --accent:#111827; --good:#166534; --goodbg:#dcfce7;
+      --bad:#991b1b; --badbg:#fee2e2; --warn:#92400e; --warnbg:#fef3c7;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+    .wrap{max-width:760px;margin:auto;padding:16px 14px 110px}
+    h1{font-size:1.35rem;margin:4px 0}
+    h2{font-size:1.05rem;margin:0 0 12px}
+    .sub{font-size:.9rem;color:var(--muted);margin-bottom:14px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin:10px 0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:620px){.grid{grid-template-columns:1fr}}
+    label{display:block;font-size:.82rem;color:var(--muted);margin-bottom:5px}
+    input,textarea,select{width:100%;font:inherit;padding:11px;border:1px solid var(--line);border-radius:10px;background:#fff}
+    textarea{min-height:84px;resize:vertical}
+    .checks{display:grid;gap:9px}
+    .check{display:flex;align-items:flex-start;gap:10px;padding:10px;border:1px solid var(--line);border-radius:11px}
+    .check input{width:auto;margin-top:3px;transform:scale(1.2)}
+    .statrow{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line)}
+    .statrow:last-child{border-bottom:none}
+    .status{padding:13px;border-radius:12px;text-align:center;font-weight:800}
+    .good{background:var(--goodbg);color:var(--good)}
+    .bad{background:var(--badbg);color:var(--bad)}
+    .warn{background:var(--warnbg);color:var(--warn)}
+    .small{font-size:.82rem;color:var(--muted);margin-top:7px}
+    .actions{position:sticky;bottom:8px;display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+    button{font:inherit;font-weight:800;border:0;border-radius:12px;padding:13px;background:var(--accent);color:white}
+    button.secondary{background:white;color:var(--ink);border:1px solid var(--line)}
+    button.danger{background:#7f1d1d}
+    .history-item{padding:9px 0;border-bottom:1px solid var(--line)}
+    .history-item:last-child{border-bottom:0}
+    .pill{display:inline-block;font-size:.72rem;font-weight:800;border-radius:999px;padding:3px 7px;background:#e5e7eb}
+    .goal{font-size:1.3rem;font-weight:800}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🚐 Cierre Diario — Transportes Tango</h1>
+  <div class="sub">Control comercial diario de Jorge y Camila · independiente de Tango OS</div>
+
+  <section class="card">
+    <div class="grid">
+      <div>
+        <label>Fecha</label>
+        <input id="date" type="date">
+      </div>
+      <div>
+        <label>Responsable del cierre</label>
+        <select id="owner">
+          <option>Jorge y Camila</option>
+          <option>Jorge</option>
+          <option>Camila</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>👤 Jorge</h2>
+    <div class="grid">
+      <div><label>Nuevos contactos individuales</label><input id="j_new" type="number" min="0" value="0"></div>
+      <div><label>Contactados por WhatsApp personal</label><input id="j_wa" type="number" min="0" value="0"></div>
+      <div><label>Seguimientos realizados</label><input id="j_follow" type="number" min="0" value="0"></div>
+      <div><label>Empresas / hoteles / turismo contactados</label><input id="j_biz" type="number" min="0" value="0"></div>
+      <div><label>Ventas cerradas</label><input id="j_sales" type="number" min="0" value="0"></div>
+      <div><label>Pasajeros vendidos</label><input id="j_pax" type="number" min="0" value="0"></div>
+      <div><label>Total vendido (Q)</label><input id="j_amount" type="number" min="0" step="0.01" value="0"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>👤 Camila</h2>
+    <div class="grid">
+      <div><label>Nuevos contactos individuales</label><input id="c_new" type="number" min="0" value="0"></div>
+      <div><label>Contactados por WhatsApp personal</label><input id="c_wa" type="number" min="0" value="0"></div>
+      <div><label>Seguimientos realizados</label><input id="c_follow" type="number" min="0" value="0"></div>
+      <div><label>Empresas / hoteles / turismo contactados</label><input id="c_biz" type="number" min="0" value="0"></div>
+      <div><label>Ventas cerradas</label><input id="c_sales" type="number" min="0" value="0"></div>
+      <div><label>Pasajeros vendidos</label><input id="c_pax" type="number" min="0" value="0"></div>
+      <div><label>Total vendido (Q)</label><input id="c_amount" type="number" min="0" step="0.01" value="0"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>📱 Promoción diaria</h2>
+    <div class="checks">
+      <label class="check"><input id="instagram" type="checkbox"><span>Historia / video publicado en Instagram</span></label>
+      <label class="check"><input id="tiktok" type="checkbox"><span>Video publicado en TikTok</span></label>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>🚐 Viajes y clientes</h2>
+    <div class="grid">
+      <div><label>Viajes vendidos hoy</label><input id="trips_today" type="number" min="0" value="0"></div>
+      <div><label>Viajes programados para mañana</label><input id="trips_tomorrow" type="number" min="0" value="0"></div>
+      <div><label>Clientes con seguimiento pendiente</label><input id="pending_clients" type="number" min="0" value="0"></div>
+      <div><label>Clientes viajando / esperando servicio</label><input id="active_clients" type="number" min="0" value="0"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>📒 Control obligatorio</h2>
+    <div class="checks">
+      <label class="check"><input id="log_ok" type="checkbox"><span>Bitácora al día</span></label>
+      <label class="check"><input id="portfolio_ok" type="checkbox"><span>Cartera de clientes ordenada y al día</span></label>
+      <label class="check"><input id="follow_ok" type="checkbox"><span>Seguimiento, atención y acompañamiento al día</span></label>
+      <label class="check"><input id="alarms_ok" type="checkbox"><span>Cada viaje tiene alerta / alarma creada</span></label>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>🎯 Meta semanal</h2>
+    <div class="statrow"><span>Nuevos contactos hoy</span><strong id="today_new">0</strong></div>
+    <div class="statrow"><span>Acumulado de la semana</span><span class="goal" id="week_total">0 / 20</span></div>
+    <div class="small">La semana se calcula de lunes a domingo usando los cierres guardados en este celular.</div>
+  </section>
+
+  <section class="card">
+    <h2>⚠️ Pendientes / incidencias</h2>
+    <textarea id="incidents" placeholder="Cliente pendiente, proveedor sin confirmar, cambio de horario, etc."></textarea>
+  </section>
+
+  <section class="card">
+    <h2>➡️ Prioridad para mañana</h2>
+    <textarea id="priority" placeholder="La acción más importante para mañana"></textarea>
+  </section>
+
+  <section class="card">
+    <h2>Estado del día</h2>
+    <div id="status" class="status bad">❌ INCOMPLETO</div>
+    <div id="why" class="small"></div>
+  </section>
+
+  <section class="card">
+    <h2>🗂 Últimos 7 cierres</h2>
+    <div id="history" class="small">Todavía no hay cierres guardados.</div>
+  </section>
+
+  <div class="actions">
+    <button id="save">Guardar cierre</button>
+    <button id="copy" class="secondary">Copiar bitácora</button>
+    <button id="share">Compartir</button>
+    <button id="clear" class="danger">Limpiar formulario</button>
+  </div>
+</div>
+
+<script>
+const ids=[
+'date','owner','j_new','j_wa','j_follow','j_biz','j_sales','j_pax','j_amount',
+'c_new','c_wa','c_follow','c_biz','c_sales','c_pax','c_amount',
+'instagram','tiktok','trips_today','trips_tomorrow','pending_clients','active_clients',
+'log_ok','portfolio_ok','follow_ok','alarms_ok','incidents','priority'
+];
+const $=id=>document.getElementById(id);
+const n=id=>Number($(id).value||0);
+const yes=id=>$(id).checked;
+
+function todayISO(){
+  const d=new Date();
+  const z=new Date(d.getTime()-d.getTimezoneOffset()*60000);
+  return z.toISOString().slice(0,10);
+}
+$('date').value=todayISO();
+
+function getRecords(){ return JSON.parse(localStorage.getItem('tango_transport_daily')||'[]'); }
+function putRecords(v){ localStorage.setItem('tango_transport_daily',JSON.stringify(v)); }
+
+function formData(){
+  const o={};
+  ids.forEach(id=>{
+    const el=$(id);
+    o[id]=el.type==='checkbox'?el.checked:el.value;
+  });
+  o.savedAt=new Date().toISOString();
+  return o;
+}
+
+function fill(o){
+  if(!o) return;
+  ids.forEach(id=>{
+    if(o[id]===undefined) return;
+    const el=$(id);
+    if(el.type==='checkbox') el.checked=!!o[id]; else el.value=o[id];
+  });
+  update();
+}
+
+function monday(dateStr){
+  const d=new Date(dateStr+'T12:00:00');
+  const day=d.getDay();
+  d.setDate(d.getDate()+(day===0?-6:1-day));
+  d.setHours(0,0,0,0);
+  return d;
+}
+
+function weeklyTotal(){
+  const start=monday($('date').value);
+  const end=new Date(start); end.setDate(end.getDate()+7);
+  const records=getRecords();
+  let total=0;
+  records.forEach(r=>{
+    const d=new Date(r.date+'T12:00:00');
+    if(d>=start && d<end) total+=Number(r.j_new||0)+Number(r.c_new||0);
+  });
+  const currentDate=$('date').value;
+  const existing=records.find(r=>r.date===currentDate);
+  const old=existing?(Number(existing.j_new||0)+Number(existing.c_new||0)):0;
+  const cur=n('j_new')+n('c_new');
+  const dc=new Date(currentDate+'T12:00:00');
+  if(dc>=start && dc<end) total=total-old+cur;
+  return total;
+}
+
+function missing(){
+  const m=[];
+  if(!yes('log_ok')) m.push('bitácora');
+  if(!yes('portfolio_ok')) m.push('cartera');
+  if(!yes('instagram')) m.push('Instagram');
+  if(!yes('tiktok')) m.push('TikTok');
+  if(!yes('follow_ok')) m.push('seguimiento');
+  if(!yes('alarms_ok')) m.push('alarmas');
+  if(n('j_wa')+n('c_wa')<1) m.push('contacto inicial por WhatsApp');
+  if(n('j_biz')+n('c_biz')<1) m.push('contacto a empresa/hotel/turismo');
+  return m;
+}
+
+function update(){
+  const today=n('j_new')+n('c_new');
+  $('today_new').textContent=today;
+  const wt=weeklyTotal();
+  $('week_total').textContent=`${wt} / 20`;
+  const m=missing();
+  if(m.length===0){
+    $('status').className='status good';
+    $('status').textContent='✅ COMPLETO';
+    $('why').textContent=wt>=20?'Meta semanal de 20 contactos cumplida.':`Día completo. Faltan ${20-wt} contactos para la meta semanal.`;
+  }else{
+    $('status').className='status bad';
+    $('status').textContent='❌ INCOMPLETO';
+    $('why').textContent='Falta: '+m.join(', ')+'.';
+  }
+}
+
+function save(){
+  if(!$('date').value){ alert('Selecciona una fecha.'); return; }
+  const data=formData();
+  const records=getRecords();
+  const i=records.findIndex(r=>r.date===data.date);
+  if(i>=0) records[i]=data; else records.push(data);
+  records.sort((a,b)=>a.date.localeCompare(b.date));
+  putRecords(records);
+  localStorage.setItem('tango_transport_draft',JSON.stringify(data));
+  update(); renderHistory();
+  alert('Cierre guardado en este dispositivo.');
+}
+
+const yn=v=>v?'✅':'❌';
+
+function bitacora(){
+  const wt=weeklyTotal();
+  const complete=missing().length===0;
+  return `🚐 *CIERRE DIARIO — TRANSPORTES TANGO*
+📅 Fecha: ${$('date').value}
+
+👤 *JORGE*
+• Nuevos contactos individuales: ${n('j_new')}
+• Contactados por WhatsApp: ${n('j_wa')}
+• Seguimientos realizados: ${n('j_follow')}
+• Empresas / hoteles / turismo contactados: ${n('j_biz')}
+• Ventas cerradas: ${n('j_sales')}
+• Pasajeros vendidos: ${n('j_pax')}
+• Total vendido: Q${n('j_amount').toFixed(2)}
+
+👤 *CAMILA*
+• Nuevos contactos individuales: ${n('c_new')}
+• Contactados por WhatsApp: ${n('c_wa')}
+• Seguimientos realizados: ${n('c_follow')}
+• Empresas / hoteles / turismo contactados: ${n('c_biz')}
+• Ventas cerradas: ${n('c_sales')}
+• Pasajeros vendidos: ${n('c_pax')}
+• Total vendido: Q${n('c_amount').toFixed(2)}
+
+📱 *PROMOCIÓN*
+• Instagram: ${yn(yes('instagram'))}
+• TikTok: ${yn(yes('tiktok'))}
+
+🚐 *VIAJES Y CLIENTES*
+• Viajes vendidos hoy: ${n('trips_today')}
+• Viajes programados para mañana: ${n('trips_tomorrow')}
+• Clientes con seguimiento pendiente: ${n('pending_clients')}
+• Clientes viajando / esperando servicio: ${n('active_clients')}
+
+📒 *CONTROL*
+• Bitácora al día: ${yn(yes('log_ok'))}
+• Cartera al día: ${yn(yes('portfolio_ok'))}
+• Seguimientos al día: ${yn(yes('follow_ok'))}
+• Alarmas creadas: ${yn(yes('alarms_ok'))}
+
+🎯 *META SEMANAL*
+• Contactos nuevos acumulados: ${wt}/20
+
+⚠️ *PENDIENTES / INCIDENCIAS*
+${$('incidents').value.trim()||'Ninguno'}
+
+➡️ *PRIORIDAD PARA MAÑANA*
+${$('priority').value.trim()||'Sin definir'}
+
+${complete?'✅ *CIERRE DEL DÍA: COMPLETO*':'❌ *CIERRE DEL DÍA: INCOMPLETO*'}`;
+}
+
+async function copyText(){
+  try{
+    await navigator.clipboard.writeText(bitacora());
+    alert('Bitácora copiada. Ya puedes pegarla en el chat de Transportes.');
+  }catch(e){
+    const ta=document.createElement('textarea'); ta.value=bitacora(); document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy'); ta.remove();
+    alert('Bitácora copiada.');
+  }
+}
+
+async function share(){
+  const text=bitacora();
+  if(navigator.share){
+    try{ await navigator.share({title:'Cierre Transportes Tango',text}); }catch(e){}
+  }else{
+    await copyText();
+  }
+}
+
+function clearForm(){
+  if(!confirm('¿Limpiar el formulario? Los cierres ya guardados no se borran.')) return;
+  ids.forEach(id=>{
+    const el=$(id);
+    if(id==='date') el.value=todayISO();
+    else if(id==='owner') el.value='Jorge y Camila';
+    else if(el.type==='checkbox') el.checked=false;
+    else if(el.tagName==='TEXTAREA') el.value='';
+    else el.value='0';
+  });
+  update();
+}
+
+function renderHistory(){
+  const rec=getRecords().slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,7);
+  if(!rec.length){ $('history').textContent='Todavía no hay cierres guardados.'; return; }
+  $('history').innerHTML=rec.map(r=>{
+    const ok=r.log_ok&&r.portfolio_ok&&r.instagram&&r.tiktok&&r.follow_ok&&r.alarms_ok &&
+      (Number(r.j_wa||0)+Number(r.c_wa||0)>=1) &&
+      (Number(r.j_biz||0)+Number(r.c_biz||0)>=1);
+    const contacts=Number(r.j_new||0)+Number(r.c_new||0);
+    const sales=Number(r.j_sales||0)+Number(r.c_sales||0);
+    return `<div class="history-item"><strong>${r.date}</strong> · <span class="pill">${ok?'COMPLETO':'INCOMPLETO'}</span><br>Nuevos contactos: ${contacts} · Ventas: ${sales}</div>`;
+  }).join('');
+}
+
+ids.forEach(id=>$(id).addEventListener('input',update));
+$('save').addEventListener('click',save);
+$('copy').addEventListener('click',copyText);
+$('share').addEventListener('click',share);
+$('clear').addEventListener('click',clearForm);
+
+const draft=JSON.parse(localStorage.getItem('tango_transport_draft')||'null');
+if(draft && draft.date===todayISO()) fill(draft);
+
+update(); renderHistory();
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>
