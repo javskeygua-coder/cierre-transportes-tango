@@ -1,13 +1,13 @@
 {
   "id": "./",
-  "name": "Cierre Diario Transportes Tango",
+  "name": "Cierre Concierge Tango",
   "short_name": "Cierre Tango",
-  "description": "Control diario de Transportes Tango para Jorge y Camila.",
+  "description": "Control compartido de clientes, ventas, viajes y cierres de Transportes Tango.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f3f4f6",
-  "theme_color": "#111827",
+  "background_color": "#fff8f1",
+  "theme_color": "#f97316",
   "icons": [
     {
       "src": "icon-192.png",
