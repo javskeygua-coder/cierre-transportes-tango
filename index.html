@@ -1,18 +1,336 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f97316"><title>Cierre Concierge Tango</title><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><style>
-:root{--o:#f97316;--y:#ffb32b;--ink:#202124;--mut:#6b7280;--bg:#fff8f1;--line:#eadbcf;--card:#fff;--g:#18794e;--r:#b42318}*{box-sizing:border-box}body{margin:0;background:linear-gradient(#fff0df,#f8f7f5);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,sans-serif}.app{max-width:900px;margin:auto;padding:0 12px 100px}.hero{margin:0 -12px;padding:calc(14px + env(safe-area-inset-top)) 18px 29px;background:linear-gradient(135deg,var(--o),var(--y));color:#fff;border-radius:0 0 28px 28px}.head{display:flex;align-items:center;gap:13px}.head img{width:64px;height:64px;border-radius:18px;background:#fff}.head h1{font-size:1.3rem;margin:0}.head p{font-size:.8rem;margin:4px 0;opacity:.9}.sync{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding:9px 11px;border:1px solid #ffffff55;background:#ffffff20;border-radius:13px;font-size:.75rem}.sync select{width:auto;color:#fff;background:#ffffff20;border-color:#ffffff66;font-weight:800}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#ffe08a;margin-right:6px}.dot.on{background:#5df0a1}.nav{position:sticky;top:8px;z-index:5;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:-22px 0 13px;padding:5px;background:#ffffffed;border:1px solid var(--line);border-radius:16px;box-shadow:0 6px 24px #63300018}.nav button{border:0;background:none;padding:8px 2px;border-radius:11px;color:var(--mut);font-size:.66rem;font-weight:800}.nav button b{display:block;font-size:1.08rem}.nav .active{background:#fff0e3;color:#bd4b00}.view{display:none}.view.active{display:block}.card{background:var(--card);border:1px solid var(--line);border-radius:19px;padding:15px;margin:10px 0;box-shadow:0 2px 10px #6530000a}.card h2{font-size:1rem;margin:0 0 11px}.ey{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:#c95107;font-weight:900}.row{display:flex;justify-content:space-between;align-items:center;gap:9px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.stat{background:#fff6ec;border:1px solid #ffe0c0;border-radius:14px;padding:11px 8px}.stat b{font-size:1.25rem;color:#bc4900;display:block}.stat span{font-size:.66rem;color:var(--mut)}label{display:block;font-size:.73rem;color:var(--mut);font-weight:700;margin-bottom:4px}input,select,textarea{width:100%;padding:10px;border:1px solid #d8c9bc;border-radius:11px;background:#fff;font:inherit}textarea{min-height:76px}.btn{border:0;border-radius:12px;padding:11px 14px;background:linear-gradient(135deg,var(--o),#ff9818);color:#fff;font-weight:850}.btn.alt{background:#fff;color:var(--ink);border:1px solid var(--line)}.btn.dark{background:#222}.actions{display:flex;gap:7px;flex-wrap:wrap}.people{display:grid;grid-template-columns:1fr 1fr;gap:9px}.person{border:1px solid var(--line);border-radius:15px;padding:12px}.person h3{margin:0 0 7px;font-size:.9rem}.metric{display:flex;justify-content:space-between;border-top:1px dashed var(--line);padding:5px 0;font-size:.76rem}.bar{height:10px;background:#eee5dc;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--o),var(--y))}.seg{display:flex;background:#f5ede6;padding:4px;border-radius:11px;gap:4px}.seg button{flex:1;border:0;background:none;padding:8px 3px;border-radius:8px;color:var(--mut);font-weight:800;font-size:.72rem}.seg .active{background:#fff;color:#bd4b00}.check{display:flex;gap:9px;padding:9px;border:1px solid var(--line);border-radius:11px;margin:6px 0;font-size:.79rem}.check input{width:auto}.activity{border:1px solid var(--line);border-radius:14px;padding:11px;margin:7px 0}.activity h3{margin:6px 0 2px;font-size:.88rem}.activity p{margin:2px 0;color:var(--mut);font-size:.74rem}.tag{font-size:.64rem;font-weight:850;color:#b64800;background:#fff0e2;padding:3px 7px;border-radius:99px}.notice{border-left:4px solid var(--o);background:#fff3e7;padding:10px;border-radius:5px 11px 11px 5px;font-size:.77rem}.report{white-space:pre-wrap;background:#242424;color:#fff;padding:13px;border-radius:14px;line-height:1.45;font-size:.76rem;max-height:440px;overflow:auto}.status{text-align:center;padding:10px;border-radius:11px;font-weight:850}.good{background:#e7f8ef;color:var(--g)}.warn{background:#fff3d7;color:#955600}.empty{text-align:center;color:var(--mut);padding:22px;font-size:.8rem}.mut{color:var(--mut)}.small{font-size:.75rem}.hidden{display:none!important}.toast{position:fixed;left:50%;bottom:85px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 14px;border-radius:11px;opacity:0;transition:.2s;z-index:20}.toast.show{opacity:1}@media(max-width:600px){.grid,.people{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.nav button{font-size:.59rem}}
-</style></head><body><div class="app"><header class="hero"><div class="head"><img src="icon-192.png"><div><h1>Cierre Concierge Tango</h1><p>Progreso individual · un solo equipo · cero duplicados</p></div></div><div class="sync"><div><span id="dot" class="dot"></span><b id="sync">Modo local</b><div id="syncd">Datos en este teléfono</div></div><div>Perfil <select id="profile"><option>Jorge</option><option>Camila</option><option>Tatiana</option></select></div></div></header><nav class="nav"><button data-v="today" class="active"><b>☀️</b>Hoy</button><button data-v="add"><b>➕</b>Registrar</button><button data-v="report"><b>📊</b>Consolidado</button><button data-v="history"><b>🗂️</b>Historial</button><button data-v="settings"><b>⚙️</b>Ajustes</button></nav><main><section id="today" class="view active"><div class="card"><div class="row"><div><div class="ey">Resumen del equipo</div><h2 id="dayTitle">Hoy</h2></div><input id="date" type="date" style="width:145px"></div><div class="stats"><div class="stat"><b id="clients">0</b><span>Clientes únicos</span></div><div class="stat"><b id="sales">0</b><span>Ventas</span></div><div class="stat"><b id="pax">0</b><span>Pasajeros</span></div><div class="stat"><b id="amount">Q0</b><span>Vendido</span></div></div></div><div class="card"><div class="row"><h2>Avance individual</h2><span class="tag">Sin duplicar</span></div><div id="people" class="people"></div></div><div class="card"><div class="row"><h2>Meta semanal</h2><b id="goalText">0 / 20</b></div><div class="bar"><i id="goal" style="width:0"></i></div><p class="small mut">Cuenta clientes únicos, no contactos repetidos.</p></div><div class="card"><div class="row"><h2>Actividad del día</h2><button class="btn alt" data-go="add">+ Registrar</button></div><div id="recent"></div></div></section><section id="add" class="view"><div class="card"><div class="ey">Nueva actividad</div><h2>¿Qué avanzaste?</h2><div id="types" class="seg"><button data-t="contact" class="active">Contacto</button><button data-t="followup">Seguimiento</button><button data-t="sale">Venta</button><button data-t="trip">Viaje</button></div></div><form id="form" class="card"><div class="grid"><div><label>Responsable *</label><select id="owner"><option>Jorge</option><option>Camila</option></select></div><div><label>Fecha *</label><input id="adate" type="date" required></div><div><label>Cliente / empresa *</label><input id="name" required placeholder="Nombre"></div><div><label>WhatsApp</label><input id="phone" inputmode="tel" placeholder="+502..."></div><div><label>Tipo de cliente</label><select id="ctype"><option value="individual">Individual</option><option value="business">Hotel / empresa</option></select></div><div><label>Canal</label><select id="channel"><option>WhatsApp personal</option><option>WhatsApp Tango</option><option>Instagram</option><option>TikTok</option><option>Visita</option><option>Llamada</option><option>Recomendación</option></select></div></div><div id="saleFields" class="grid hidden" style="margin-top:9px"><div><label>Ruta / servicio</label><input id="route"></div><div><label>Fecha de viaje</label><input id="travel" type="date"></div><div><label>Pasajeros</label><input id="apax" type="number" min="0" value="0"></div><div><label>Total vendido (Q)</label><input id="aamount" type="number" min="0" value="0"></div><div><label>Correlativo / No. de voucher</label><input id="voucherNo" placeholder="Ej. VT-2026-001"></div><div><label>Proveedor</label><input id="provider" placeholder="Transportista o proveedor"></div><div><label>Estado de pago</label><select id="paymentStatus"><option value="pending">Pendiente</option><option value="partial">Abono</option><option value="paid">Pagado</option></select></div><div><label>Estado del servicio</label><select id="serviceStatus"><option value="reserved">Reservado</option><option value="confirmed">Confirmado</option><option value="completed">Completado</option><option value="cancelled">Cancelado</option></select></div><div style="grid-column:1/-1"><label>Foto del voucher</label><input id="voucherFile" type="file" accept="image/*" capture="environment"><p class="small mut">Toma una foto clara. La app la comprime antes de subirla para ahorrar datos.</p></div></div><div style="margin-top:9px"><label>Notas / siguiente paso</label><textarea id="notes"></textarea></div><div class="actions" style="margin-top:11px"><button class="btn">Guardar actividad</button><button type="button" id="clear" class="btn alt">Limpiar</button></div></form><div class="card"><h2>Mi cierre personal</h2><p class="small mut">Cada uno completa solamente su control.</p><label class="check"><input id="log" type="checkbox">Bitácora al día</label><label class="check"><input id="portfolio" type="checkbox">Cartera ordenada</label><label class="check"><input id="follow" type="checkbox">Seguimientos al día</label><label class="check"><input id="alarms" type="checkbox">Alertas de viajes creadas</label><label class="check"><input id="instagram" type="checkbox">Instagram publicado</label><label class="check"><input id="tiktok" type="checkbox">TikTok publicado</label><div class="grid"><div><label>Pendientes / incidencias</label><textarea id="incidents"></textarea></div><div><label>Prioridad para mañana</label><textarea id="priority"></textarea></div></div><button id="saveDaily" class="btn" style="margin-top:10px">Guardar mi cierre</button></div></section><section id="report" class="view"><div class="card"><div class="row"><div><div class="ey">Para Tatiana</div><h2>Cierre consolidado</h2></div><input id="rdate" type="date" style="width:145px"></div><p class="small mut">Une ambos avances y elimina clientes y servicios repetidos.</p><div id="rstatus" class="status warn"></div></div><div class="card"><div id="rstats" class="stats"></div></div><div class="card"><h2>Informe para WhatsApp</h2><div id="rtext" class="report"></div><div class="actions" style="margin-top:10px"><button id="copy" class="btn">Copiar</button><button id="share" class="btn dark">Compartir</button></div></div></section><section id="history" class="view"><div class="card"><div class="row"><div><div class="ey">Registro maestro</div><h2>Actividades</h2></div><select id="filter" style="width:130px"><option value="all">Todo</option><option>Jorge</option><option>Camila</option><option value="sale">Ventas</option></select></div><div id="list"></div></div></section><section id="settings" class="view"><div class="card"><div class="ey">Conexión</div><h2>Equipo compartido</h2><div id="cloud" class="notice">Preparada para conectarse. Por ahora funciona localmente.</div><div class="grid" style="margin-top:10px"><div><label>Equipo</label><input id="team" value="Transportes Tango"></div><div><label>Meta semanal</label><input id="ginput" type="number" value="20"></div></div><button id="saveSet" class="btn" style="margin-top:10px">Guardar</button></div><div class="card"><h2>Cómo evita duplicados</h2><p class="small mut">Normaliza el WhatsApp y, si no existe, el nombre. Si coinciden persona, actividad, ruta y fecha, une a los responsables sin volver a sumar el cliente o la venta.</p><div class="notice"><b>Crédito justo:</b> el informe conserva quién hizo cada actividad; una colaboración cuenta para ambos, pero una sola vez para el equipo.</div></div><div class="card"><h2>Respaldo</h2><div class="actions"><button id="export" class="btn alt">Exportar</button><button id="import" class="btn alt">Importar</button><input id="file" class="hidden" type="file" accept=".json"></div></div></section></main></div><div id="toast" class="toast"></div><script src="firebase-config.js"></script><script type="module">
-const K='concierge_tango_v4',S={a:[],d:{},set:{team:'Transportes Tango',goal:20},cloud:null,type:'contact'};const $=x=>document.getElementById(x),today=()=>{let d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)},cash=n=>'Q'+Number(n||0).toLocaleString('es-GT'),norm=s=>(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,''),ck=a=>a.phone?'p'+a.phone.replace(/\D/g,'').slice(-14):'n'+norm(a.name),fp=a=>[a.date,a.type,ck(a),norm(a.route),a.travel||''].join('|'),id=()=>crypto.randomUUID?.()||Date.now().toString(36),toast=x=>{$('toast').textContent=x;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2600)},esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-async function voucherImage(file){if(!file)return'';if(!file.type.startsWith('image/'))throw Error('El voucher debe ser una foto');let img=await createImageBitmap(file),max=1100,scale=Math.min(1,max/Math.max(img.width,img.height)),canvas=document.createElement('canvas');canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);let data=canvas.toDataURL('image/jpeg',.58);img.close?.();if(data.length>650000)throw Error('La foto sigue muy pesada; recórtala o toma otra más cerca');return data}
-function load(){try{let x=JSON.parse(localStorage.getItem(K)||'{}');S.a=x.a||[];S.d=x.d||{};S.set={...S.set,...x.set}}catch{}}function local(){localStorage.setItem(K,JSON.stringify({a:S.a,d:S.d,set:S.set}))}function uniq(x){let m=new Map;x.forEach(a=>{let k=a.fp||fp(a);if(m.has(k)){let z=m.get(k);z.people=[...new Set([...(z.people||[z.owner]),...(a.people||[a.owner])])]}else m.set(k,{...a})});return[...m.values()]}function sum(date){let a=uniq(S.a.filter(x=>x.date===date)),sales=a.filter(x=>x.type==='sale'),by={};['Jorge','Camila'].forEach(p=>{let q=a.filter(x=>(x.people||[x.owner]).includes(p)),vs=q.filter(x=>x.type==='sale'&&x.owner===p);by[p]={acts:q.length,new:new Set(q.filter(x=>x.type==='contact').map(ck)).size,fol:q.filter(x=>x.type==='followup').length,sales:vs.length,pax:vs.reduce((n,x)=>n+Number(x.pax||0),0),amt:vs.reduce((n,x)=>n+Number(x.amount||0),0)}});return{a,clients:new Set(a.map(ck)).size,sales:sales.length,pax:sales.reduce((n,x)=>n+Number(x.pax||0),0),amt:sales.reduce((n,x)=>n+Number(x.amount||0),0),by}}
-function card(a){return`<article class="activity"><div class="row"><span class="tag">${{contact:'Contacto',followup:'Seguimiento',sale:'Venta',trip:'Viaje'}[a.type]}${(a.people||[]).length>1?' · Compartido':''}</span><span class="small mut">${a.date}</span></div><h3>${esc(a.name)}</h3><p>${esc(a.phone)} ${a.route?'· '+esc(a.route):''}</p><p><b>${(a.people||[a.owner]).join(' + ')}</b>${a.type==='sale'?' · '+cash(a.amount)+' · '+a.pax+' pax':''}</p>${['sale','trip'].includes(a.type)?`<p class="small">${a.voucherData?'📎 Voucher adjunto':'⚠️ Voucher pendiente'}${a.voucherNo?' · '+esc(a.voucherNo):''}${a.provider?' · '+esc(a.provider):''} · ${a.paymentStatus==='paid'?'Pagado':a.paymentStatus==='partial'?'Abono':'Pago pendiente'}</p>${a.voucherData?`<details><summary>Ver voucher</summary><img src="${a.voucherData}" alt="Voucher ${esc(a.voucherNo)}" style="width:100%;max-height:360px;object-fit:contain;border-radius:12px;margin-top:8px;background:#fff"></details>`:''}`:''}${a.notes?'<p>'+esc(a.notes)+'</p>':''}</article>`}function week(date){let d=new Date(date+'T12:00:00'),day=d.getDay();d.setDate(d.getDate()+(day===0?-6:1-day));let s=d.toISOString().slice(0,10);d.setDate(d.getDate()+7);let e=d.toISOString().slice(0,10);return new Set(uniq(S.a.filter(x=>x.date>=s&&x.date<e&&x.type==='contact')).map(ck)).size}
-function render(){let date=$('date').value,x=sum(date);$('dayTitle').textContent=new Intl.DateTimeFormat('es-GT',{weekday:'long',day:'numeric',month:'long'}).format(new Date(date+'T12:00'));$('clients').textContent=x.clients;$('sales').textContent=x.sales;$('pax').textContent=x.pax;$('amount').textContent=cash(x.amt);$('people').innerHTML=['Jorge','Camila'].map(p=>{let z=x.by[p];return`<div class="person"><h3>${p==='Jorge'?'👨🏻':'👩🏻'} ${p}</h3>${[['Actividades',z.acts],['Clientes nuevos',z.new],['Seguimientos',z.fol],['Ventas',z.sales],['Pasajeros',z.pax],['Vendido',cash(z.amt)]].map(v=>'<div class="metric"><span>'+v[0]+'</span><b>'+v[1]+'</b></div>').join('')}</div>`}).join('');let w=week(date);$('goalText').textContent=w+' / '+S.set.goal;$('goal').style.width=Math.min(100,w/S.set.goal*100)+'%';$('recent').innerHTML=x.a.length?x.a.slice(-5).reverse().map(card).join(''):'<div class="empty">Sin actividad registrada.</div>';history();report();dailyFill()}
-function history(){let a=[...S.a].sort((x,y)=>(y.date+y.created).localeCompare(x.date+x.created)),f=$('filter').value;if(['Jorge','Camila'].includes(f))a=a.filter(x=>(x.people||[x.owner]).includes(f));if(f==='sale')a=a.filter(x=>x.type==='sale');$('list').innerHTML=a.length?a.map(card).join(''):'<div class="empty">Sin registros.</div>'}function complete(x){return x&&x.log&&x.portfolio&&x.follow&&x.alarms}
-function report(){let date=$('rdate').value,x=sum(date),j=S.d[date+'_Jorge'],c=S.d[date+'_Camila'],missing=x.a.filter(a=>['sale','trip'].includes(a.type)&&!a.voucherData).length,ok=complete(j)&&complete(c)&&missing===0,inc=[j?.incidents&&'Jorge: '+j.incidents,c?.incidents&&'Camila: '+c.incidents].filter(Boolean),pri=[j?.priority&&'Jorge: '+j.priority,c?.priority&&'Camila: '+c.priority].filter(Boolean),t=[`🚐 *CIERRE CONSOLIDADO — TRANSPORTES TANGO*`,`📅 ${date}`,'',`*EQUIPO*`,`• Clientes únicos: ${x.clients}`,`• Ventas: ${x.sales}`,`• Pasajeros: ${x.pax}`,`• Total vendido: ${cash(x.amt)}`,'',...['Jorge','Camila'].flatMap(p=>{let z=x.by[p],d=S.d[date+'_'+p];return[`*${p.toUpperCase()}*`,`• Actividades: ${z.acts}`,`• Clientes nuevos: ${z.new}`,`• Seguimientos: ${z.fol}`,`• Ventas: ${z.sales} · ${z.pax} pax · ${cash(z.amt)}`,`• Cierre personal: ${complete(d)?'✅ Completo':'⚠️ Pendiente'}`,'']}),`*CONTROL*`,`• ${x.clients} clientes únicos en ${x.a.length} actividades, sin duplicados.`,`• Vouchers: ${missing?'⚠️ '+missing+' pendiente(s)':'✅ completos'}`,...(inc.length?['','*PENDIENTES*',...inc.map(v=>'• '+v)]:[]),...(pri.length?['','*PRIORIDAD MAÑANA*',...pri.map(v=>'• '+v)]:[]),'',ok?'✅ *CIERRE COMPLETO*':'⚠️ *CIERRE PENDIENTE*'];$('rstatus').className='status '+(ok?'good':'warn');$('rstatus').textContent=ok?'✅ Cierre y vouchers completos':'⚠️ Pendiente: '+[!complete(j)&&'cierre de Jorge',!complete(c)&&'cierre de Camila',missing&&missing+' voucher(s)'].filter(Boolean).join(', ');$('rstats').innerHTML=[['Clientes',x.clients],['Ventas',x.sales],['Vouchers pendientes',missing],['Vendido',cash(x.amt)]].map(v=>`<div class="stat"><b>${v[1]}</b><span>${v[0]}</span></div>`).join('');$('rtext').textContent=t.join('\n');return t.join('\n')}
-async function saveA(a){let vn=norm(a.voucherNo),old=S.a.find(x=>(x.fp||fp(x))===a.fp||(vn&&norm(x.voucherNo)===vn));if(old){old.people=[...new Set([...(old.people||[old.owner]),a.owner])];old.notes=old.notes||a.notes;for(let k of ['voucherNo','provider','paymentStatus','serviceStatus','voucherData'])if(a[k])old[k]=a[k];toast('Unido al registro existente, sin duplicar');a=old}else{a.id=id();a.people=[a.owner];a.created=new Date().toISOString();S.a.push(a);toast('Actividad y control guardados')}local();if(S.cloud)await S.cloud.fs.setDoc(S.cloud.fs.doc(S.cloud.db,'teams',S.cloud.team,'activities',a.id),a,{merge:true});render()}
-function dailyFill(){let p=$('profile').value;if(p==='Tatiana')return;let d=S.d[$('adate').value+'_'+p]||{};['log','portfolio','follow','alarms','instagram','tiktok'].forEach(k=>$(k).checked=!!d[k]);$('incidents').value=d.incidents||'';$('priority').value=d.priority||'';$('owner').value=p}
-async function cloudInit(){let c=window.TANGO_FIREBASE_CONFIG;if(!c?.apiKey)return;try{let A=await import('https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js'),U=await import('https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js'),F=await import('https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js'),app=A.initializeApp(c),auth=U.getAuth(app);await U.signInAnonymously(auth);S.cloud={db:F.getFirestore(app),fs:F,team:c.teamId};$('dot').classList.add('on');$('sync').textContent='Sincronizado';$('syncd').textContent='Equipo conectado';$('cloud').innerHTML='<b>Conectado:</b> los tres perfiles comparten la misma base.';F.onSnapshot(F.collection(S.cloud.db,'teams',S.cloud.team,'activities'),q=>{S.a=q.docs.map(d=>({id:d.id,...d.data()}));local();render()});F.onSnapshot(F.collection(S.cloud.db,'teams',S.cloud.team,'daily'),q=>{S.d={};q.docs.forEach(d=>S.d[d.id]=d.data());local();render()})}catch(e){console.error(e)}}
-function view(v){document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id===v));document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.v===v));scrollTo(0,0)}document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>view(b.dataset.v));document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>view(b.dataset.go));document.querySelectorAll('#types button').forEach(b=>b.onclick=e=>{e.preventDefault();document.querySelectorAll('#types button').forEach(x=>x.classList.remove('active'));b.classList.add('active');S.type=b.dataset.t;$('saleFields').classList.toggle('hidden',!['sale','trip'].includes(S.type))});
-$('form').onsubmit=async e=>{e.preventDefault();try{let voucherData=['sale','trip'].includes(S.type)?await voucherImage($('voucherFile').files[0]):'',a={type:S.type,owner:$('owner').value,date:$('adate').value,name:$('name').value.trim(),phone:$('phone').value.trim(),ctype:$('ctype').value,channel:$('channel').value,route:$('route').value.trim(),travel:$('travel').value,pax:+$('apax').value||0,amount:+$('aamount').value||0,voucherNo:$('voucherNo').value.trim(),provider:$('provider').value.trim(),paymentStatus:$('paymentStatus').value,serviceStatus:$('serviceStatus').value,voucherData,notes:$('notes').value.trim()};a.fp=fp(a);await saveA(a);$('form').reset();$('adate').value=$('date').value;dailyFill()}catch(err){toast(err.message||'No fue posible guardar')}};$('clear').onclick=()=>{$('form').reset();$('adate').value=$('date').value;dailyFill()};$('saveDaily').onclick=async()=>{let p=$('profile').value;if(p==='Tatiana')return toast('Selecciona Jorge o Camila'),0;let date=$('adate').value,d={owner:p,date,log:$('log').checked,portfolio:$('portfolio').checked,follow:$('follow').checked,alarms:$('alarms').checked,instagram:$('instagram').checked,tiktok:$('tiktok').checked,incidents:$('incidents').value.trim(),priority:$('priority').value.trim(),updated:new Date().toISOString()};S.d[date+'_'+p]=d;local();if(S.cloud)await S.cloud.fs.setDoc(S.cloud.fs.doc(S.cloud.db,'teams',S.cloud.team,'daily',date+'_'+p),d,{merge:true});render();toast('Cierre personal guardado')};
-$('copy').onclick=async()=>{await navigator.clipboard.writeText(report());toast('Informe copiado')};$('share').onclick=async()=>{let text=report();navigator.share?await navigator.share({title:'Cierre Tango',text}):navigator.clipboard.writeText(text)};$('date').onchange=()=>{$('adate').value=$('date').value;$('rdate').value=$('date').value;render()};$('rdate').onchange=report;$('filter').onchange=history;$('profile').onchange=()=>{localStorage.setItem(K+'p',$('profile').value);dailyFill();if($('profile').value==='Tatiana')view('report')};$('saveSet').onclick=()=>{S.set.team=$('team').value;S.set.goal=Math.max(1,+$('ginput').value||20);local();render();toast('Ajustes guardados')};$('export').onclick=()=>{let b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='respaldo-tango-'+today()+'.json';a.click()};$('import').onclick=()=>$('file').click();$('file').onchange=async e=>{let x=JSON.parse(await e.target.files[0].text());S.a=x.a||[];S.d=x.d||{};S.set=x.set||S.set;local();render()};
-load();let d=today();$('date').value=$('adate').value=$('rdate').value=d;$('profile').value=localStorage.getItem(K+'p')||'Jorge';$('team').value=S.set.team;$('ginput').value=S.set.goal;render();cloudInit();if('serviceWorker'in navigator)navigator.serviceWorker.register('./service-worker.js');
-</script></body></html>
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f97316">
+<title>Cierre Concierge Tango</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--o:#f97316;--y:#ffb32b;--ink:#202124;--mut:#6b7280;--bg:#fff8f1;--line:#eadbcf;--card:#fff;--g:#18794e;--r:#b42318}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(#fff0df,#f8f7f5);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+.app{max-width:900px;margin:auto;padding:0 12px 100px}
+.hero{margin:0 -12px;padding:calc(14px + env(safe-area-inset-top)) 18px 29px;background:linear-gradient(135deg,var(--o),var(--y));color:#fff;border-radius:0 0 28px 28px}
+.head{display:flex;align-items:center;gap:13px}.head img{width:64px;height:64px;border-radius:18px;background:#fff}.head h1{font-size:1.3rem;margin:0}.head p{font-size:.8rem;margin:4px 0;opacity:.9}
+.sync{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding:9px 11px;border:1px solid #ffffff55;background:#ffffff20;border-radius:13px;font-size:.75rem}
+.sync select{width:auto;color:#fff;background:#ffffff20;border-color:#ffffff66;font-weight:800}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#ffe08a;margin-right:6px}.dot.on{background:#5df0a1}.dot.off{background:#ffb4a8}
+.nav{position:sticky;top:8px;z-index:5;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:-22px 0 13px;padding:5px;background:#ffffffed;border:1px solid var(--line);border-radius:16px;box-shadow:0 6px 24px #63300018}
+.nav button{border:0;background:none;padding:8px 2px;border-radius:11px;color:var(--mut);font-size:.66rem;font-weight:800}.nav button b{display:block;font-size:1.08rem}.nav .active{background:#fff0e3;color:#bd4b00}
+.view{display:none}.view.active{display:block}.card{background:var(--card);border:1px solid var(--line);border-radius:19px;padding:15px;margin:10px 0;box-shadow:0 2px 10px #6530000a}.card h2{font-size:1rem;margin:0 0 11px}
+.ey{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:#c95107;font-weight:900}.row{display:flex;justify-content:space-between;align-items:center;gap:9px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.stat{background:#fff6ec;border:1px solid #ffe0c0;border-radius:14px;padding:11px 8px}.stat b{font-size:1.25rem;color:#bc4900;display:block}.stat span{font-size:.66rem;color:var(--mut)}
+label{display:block;font-size:.73rem;color:var(--mut);font-weight:700;margin-bottom:4px}input,select,textarea{width:100%;padding:10px;border:1px solid #d8c9bc;border-radius:11px;background:#fff;font:inherit}textarea{min-height:76px}
+.btn{border:0;border-radius:12px;padding:11px 14px;background:linear-gradient(135deg,var(--o),#ff9818);color:#fff;font-weight:850}.btn.alt{background:#fff;color:var(--ink);border:1px solid var(--line)}.btn.dark{background:#222}.actions{display:flex;gap:7px;flex-wrap:wrap}
+.people{display:grid;grid-template-columns:1fr 1fr;gap:9px}.person{border:1px solid var(--line);border-radius:15px;padding:12px}.person h3{margin:0 0 7px;font-size:.9rem}.metric{display:flex;justify-content:space-between;border-top:1px dashed var(--line);padding:5px 0;font-size:.76rem}
+.bar{height:10px;background:#eee5dc;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--o),var(--y))}
+.seg{display:flex;background:#f5ede6;padding:4px;border-radius:11px;gap:4px;overflow:auto}.seg button{flex:1;min-width:76px;border:0;background:none;padding:8px 3px;border-radius:8px;color:var(--mut);font-weight:800;font-size:.72rem}.seg .active{background:#fff;color:#bd4b00}
+.check{display:flex;gap:9px;padding:9px;border:1px solid var(--line);border-radius:11px;margin:6px 0;font-size:.79rem}.check input{width:auto}
+.activity{border:1px solid var(--line);border-radius:14px;padding:11px;margin:7px 0}.activity h3{margin:6px 0 2px;font-size:.88rem}.activity p{margin:2px 0;color:var(--mut);font-size:.74rem}
+.tag{font-size:.64rem;font-weight:850;color:#b64800;background:#fff0e2;padding:3px 7px;border-radius:99px}.tag.quote{color:#7a4d00;background:#fff5ca}
+.notice{border-left:4px solid var(--o);background:#fff3e7;padding:10px;border-radius:5px 11px 11px 5px;font-size:.77rem}
+.report{white-space:pre-wrap;background:#242424;color:#fff;padding:13px;border-radius:14px;line-height:1.45;font-size:.76rem;max-height:440px;overflow:auto}
+.status{text-align:center;padding:10px;border-radius:11px;font-weight:850}.good{background:#e7f8ef;color:var(--g)}.warn{background:#fff3d7;color:#955600}
+.empty{text-align:center;color:var(--mut);padding:22px;font-size:.8rem}.mut{color:var(--mut)}.small{font-size:.75rem}.hidden{display:none!important}
+.toast{position:fixed;left:50%;bottom:85px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 14px;border-radius:11px;opacity:0;transition:.2s;z-index:20;max-width:90%;text-align:center}.toast.show{opacity:1}
+@media(max-width:600px){.grid,.people{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.nav button{font-size:.59rem}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="hero">
+  <div class="head"><img src="icon-192.png"><div><h1>Cierre Concierge Tango</h1><p>Progreso individual · un solo equipo · cero duplicados</p></div></div>
+  <div class="sync">
+    <div><span id="dot" class="dot"></span><b id="sync">Conectando...</b><div id="syncd">Supabase Tango OS</div></div>
+    <div>Perfil <select id="profile"><option>Jorge</option><option>Camila</option><option>Tatiana</option></select></div>
+  </div>
+</header>
+
+<nav class="nav">
+  <button data-v="today" class="active"><b>☀️</b>Hoy</button>
+  <button data-v="add"><b>➕</b>Registrar</button>
+  <button data-v="report"><b>📊</b>Consolidado</button>
+  <button data-v="history"><b>🗂️</b>Historial</button>
+  <button data-v="settings"><b>⚙️</b>Ajustes</button>
+</nav>
+
+<main>
+<section id="today" class="view active">
+  <div class="card">
+    <div class="row"><div><div class="ey">Resumen del equipo</div><h2 id="dayTitle">Hoy</h2></div><input id="date" type="date" style="width:145px"></div>
+    <div class="stats">
+      <div class="stat"><b id="clients">0</b><span>Clientes únicos</span></div>
+      <div class="stat"><b id="sales">0</b><span>Ventas</span></div>
+      <div class="stat"><b id="pax">0</b><span>Pasajeros</span></div>
+      <div class="stat"><b id="amount">Q0</b><span>Vendido</span></div>
+    </div>
+  </div>
+  <div class="card"><div class="row"><h2>Avance individual</h2><span class="tag">Sin duplicar</span></div><div id="people" class="people"></div></div>
+  <div class="card"><div class="row"><h2>Meta semanal</h2><b id="goalText">0 / 20</b></div><div class="bar"><i id="goal" style="width:0"></i></div><p class="small mut">Cuenta clientes únicos, no contactos repetidos.</p></div>
+  <div class="card"><div class="row"><h2>Actividad del día</h2><button class="btn alt" data-go="add">+ Registrar</button></div><div id="recent"></div></div>
+</section>
+
+<section id="add" class="view">
+  <div class="card">
+    <div class="ey">Nueva actividad</div><h2>¿Qué avanzaste?</h2>
+    <div id="types" class="seg">
+      <button data-t="contact" class="active">Contacto</button>
+      <button data-t="followup">Seguimiento</button>
+      <button data-t="quote">Cotización</button>
+      <button data-t="sale">Venta</button>
+      <button data-t="trip">Viaje</button>
+    </div>
+  </div>
+
+  <form id="form" class="card">
+    <div class="grid">
+      <div><label>Responsable *</label><select id="owner"><option>Jorge</option><option>Camila</option></select></div>
+      <div><label>Fecha *</label><input id="adate" type="date" required></div>
+      <div><label>Cliente / empresa *</label><input id="name" required placeholder="Nombre"></div>
+      <div><label>WhatsApp</label><input id="phone" inputmode="tel" placeholder="+502..."></div>
+      <div><label>Tipo de cliente</label><select id="ctype"><option value="individual">Individual</option><option value="business">Hotel / empresa</option></select></div>
+      <div><label>Canal</label><select id="channel"><option>WhatsApp personal</option><option>WhatsApp Tango</option><option>Instagram</option><option>TikTok</option><option>Visita</option><option>Llamada</option><option>Recomendación</option></select></div>
+    </div>
+
+    <div id="serviceFields" class="grid hidden" style="margin-top:9px">
+      <div><label>Ruta / servicio</label><input id="route"></div>
+      <div><label>Fecha de viaje</label><input id="travel" type="date"></div>
+      <div><label>Pasajeros</label><input id="apax" type="number" min="0" value="0"></div>
+      <div><label id="amountLabel">Total (Q)</label><input id="aamount" type="number" min="0" value="0"></div>
+      <div><label>Correlativo / No. de voucher</label><input id="voucherNo" placeholder="Ej. 0055"></div>
+      <div><label>Proveedor</label><input id="provider" placeholder="Transportista o proveedor"></div>
+      <div><label>Estado de pago</label><select id="paymentStatus"><option value="pending">Pendiente</option><option value="partial">Abono</option><option value="paid">Pagado</option></select></div>
+      <div><label>Estado del servicio</label><select id="serviceStatus"><option value="quoted">Cotizado</option><option value="reserved">Reservado</option><option value="confirmed">Confirmado</option><option value="completed">Completado</option><option value="cancelled">Cancelado</option></select></div>
+      <div id="voucherWrap" style="grid-column:1/-1"><label>Foto del voucher</label><input id="voucherFile" type="file" accept="image/*" capture="environment"><p class="small mut">Opcional. La foto se comprime antes de sincronizar.</p></div>
+    </div>
+
+    <div style="margin-top:9px"><label>Notas / siguiente paso</label><textarea id="notes"></textarea></div>
+    <div class="actions" style="margin-top:11px"><button class="btn">Guardar actividad</button><button type="button" id="clear" class="btn alt">Limpiar</button></div>
+  </form>
+
+  <div class="card">
+    <h2>Mi cierre personal</h2><p class="small mut">Cada uno completa solamente su control.</p>
+    <label class="check"><input id="log" type="checkbox">Bitácora al día</label>
+    <label class="check"><input id="portfolio" type="checkbox">Cartera ordenada</label>
+    <label class="check"><input id="follow" type="checkbox">Seguimientos al día</label>
+    <label class="check"><input id="alarms" type="checkbox">Alertas de viajes creadas</label>
+    <label class="check"><input id="instagram" type="checkbox">Instagram publicado</label>
+    <label class="check"><input id="tiktok" type="checkbox">TikTok publicado</label>
+    <div class="grid"><div><label>Pendientes / incidencias</label><textarea id="incidents"></textarea></div><div><label>Prioridad para mañana</label><textarea id="priority"></textarea></div></div>
+    <button id="saveDaily" class="btn" style="margin-top:10px">Guardar mi cierre</button>
+  </div>
+</section>
+
+<section id="report" class="view">
+  <div class="card"><div class="row"><div><div class="ey">Para Tatiana</div><h2>Cierre consolidado</h2></div><input id="rdate" type="date" style="width:145px"></div><p class="small mut">Une ambos avances y elimina clientes y servicios repetidos.</p><div id="rstatus" class="status warn"></div></div>
+  <div class="card"><div id="rstats" class="stats"></div></div>
+  <div class="card"><h2>Informe para WhatsApp</h2><div id="rtext" class="report"></div><div class="actions" style="margin-top:10px"><button id="copy" class="btn">Copiar</button><button id="share" class="btn dark">Compartir</button></div></div>
+</section>
+
+<section id="history" class="view">
+  <div class="card">
+    <div class="row"><div><div class="ey">Registro maestro</div><h2>Actividades</h2></div>
+      <select id="filter" style="width:135px"><option value="all">Todo</option><option>Jorge</option><option>Camila</option><option value="quote">Cotizaciones</option><option value="sale">Ventas</option></select>
+    </div>
+    <div id="list"></div>
+  </div>
+</section>
+
+<section id="settings" class="view">
+  <div class="card"><div class="ey">Conexión</div><h2>Equipo compartido</h2><div id="cloud" class="notice">Conectando con Tango OS...</div><div class="grid" style="margin-top:10px"><div><label>Equipo</label><input id="team" value="Concierge Tango"></div><div><label>Meta semanal</label><input id="ginput" type="number" value="20"></div></div><div class="actions" style="margin-top:10px"><button id="saveSet" class="btn">Guardar</button><button id="forceSync" class="btn alt">Sincronizar ahora</button></div></div>
+  <div class="card"><h2>Automatización</h2><div class="notice"><b>ChatGPT → Supabase → esta app.</b><br>Las ventas y cotizaciones registradas desde ChatGPT aparecen aquí al sincronizar. Lo que se registre aquí también se guarda en Supabase.</div></div>
+  <div class="card"><h2>Cómo evita duplicados</h2><p class="small mut">Normaliza WhatsApp o nombre. Si coinciden persona, actividad, ruta y fecha, el backend conserva un solo registro y une responsables cuando corresponde.</p></div>
+  <div class="card"><h2>Respaldo local</h2><div class="actions"><button id="export" class="btn alt">Exportar</button><button id="import" class="btn alt">Importar</button><input id="file" class="hidden" type="file" accept=".json"></div></div>
+</section>
+</main>
+</div>
+<div id="toast" class="toast"></div>
+
+<script src="supabase-config.js"></script>
+<script>
+const K='concierge_tango_supabase_v1';
+const S={a:[],d:{},set:{team:'Concierge Tango',goal:20},type:'contact',online:false};
+const $=x=>document.getElementById(x);
+const today=()=>{let d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)};
+const cash=n=>'Q'+Number(n||0).toLocaleString('es-GT');
+const norm=s=>(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+const ck=a=>a.phone?'p'+a.phone.replace(/\D/g,'').slice(-14):'n'+norm(a.name);
+const fp=a=>[a.date,a.type,ck(a),norm(a.route),a.travel||''].join('|');
+const id=()=>crypto.randomUUID?.()||Date.now().toString(36);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const toast=x=>{$('toast').textContent=x;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2600)};
+
+function loadLocal(){try{let x=JSON.parse(localStorage.getItem(K)||'{}');S.a=x.a||[];S.d=x.d||{};S.set={...S.set,...x.set}}catch{}}
+function saveLocal(){localStorage.setItem(K,JSON.stringify({a:S.a,d:S.d,set:S.set}))}
+function uniq(x){let m=new Map;x.forEach(a=>{let k=a.fp||fp(a);if(m.has(k)){let z=m.get(k);z.people=[...new Set([...(z.people||[z.owner]),...(a.people||[a.owner])])]}else m.set(k,{...a})});return[...m.values()]}
+
+async function api(action,payload={}){
+  const c=window.TANGO_SUPABASE_CONFIG||{};
+  if(!c.endpoint||!c.teamKey) throw Error('Configuración de Supabase incompleta');
+  const r=await fetch(c.endpoint,{method:'POST',headers:{'content-type':'application/json','x-tango-key':c.teamKey},body:JSON.stringify({action,...payload})});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok) throw Error(j.error||'No fue posible sincronizar');
+  return j;
+}
+function fromDb(a){return{
+  id:a.id,type:a.type,owner:a.owner,date:a.activity_date,name:a.customer_name,phone:a.phone||'',ctype:a.customer_type||'individual',
+  channel:a.channel||'',route:a.route||'',travel:a.travel_date||'',pax:+a.pax||0,amount:+a.amount_gtq||0,voucherNo:a.voucher_no||'',
+  provider:a.provider||'',paymentStatus:a.payment_status||'pending',serviceStatus:a.service_status||'reserved',voucherData:a.voucher_data||'',
+  notes:a.notes||'',fp:a.fingerprint,people:a.people||[a.owner],created:a.created_at||''
+}}
+function toDb(a){return{
+  id:a.id,type:a.type,owner:a.owner,activity_date:a.date,customer_name:a.name,phone:a.phone||'',customer_type:a.ctype||'individual',
+  channel:a.channel||'',route:a.route||'',travel_date:a.travel||null,pax:+a.pax||0,amount_gtq:+a.amount||0,voucher_no:a.voucherNo||'',
+  provider:a.provider||'',payment_status:a.paymentStatus||'pending',service_status:a.serviceStatus||(['quote'].includes(a.type)?'quoted':'reserved'),
+  notes:a.notes||'',fingerprint:a.fp||fp(a),people:a.people?.length?a.people:[a.owner],source:'app',voucher_data:a.voucherData||''
+}}
+function dailyFromDb(d){return{owner:d.owner,date:d.close_date,log:!!d.log,portfolio:!!d.portfolio,follow:!!d.follow,alarms:!!d.alarms,instagram:!!d.instagram,tiktok:!!d.tiktok,incidents:d.incidents||'',priority:d.priority||'',updated:d.updated_at||''}}
+function dailyToDb(d){return{id:d.date+'_'+d.owner,owner:d.owner,close_date:d.date,log:!!d.log,portfolio:!!d.portfolio,follow:!!d.follow,alarms:!!d.alarms,instagram:!!d.instagram,tiktok:!!d.tiktok,incidents:d.incidents||'',priority:d.priority||''}}
+
+async function syncNow(silent=false){
+  try{
+    const j=await api('sync');
+    S.a=(j.activities||[]).map(fromDb);
+    S.d={};(j.daily||[]).forEach(d=>{let x=dailyFromDb(d);S.d[x.date+'_'+x.owner]=x});
+    S.online=true;saveLocal();setSyncUI();render();
+    if(!silent)toast('Sincronizado con Tango OS');
+  }catch(e){
+    S.online=false;setSyncUI();render();
+    if(!silent)toast('Sin conexión: trabajando con copia local');
+  }
+}
+function setSyncUI(){
+  $('dot').classList.toggle('on',S.online);$('dot').classList.toggle('off',!S.online);
+  $('sync').textContent=S.online?'Sincronizado':'Modo local';
+  $('syncd').textContent=S.online?'Equipo conectado · Supabase':'Se reintentará al volver internet';
+  $('cloud').innerHTML=S.online?'<b>Conectado a Tango OS.</b> ChatGPT y los teléfonos usan la misma base.':'<b>Sin conexión.</b> La app conserva una copia local y puede reintentar.';
+}
+
+async function voucherImage(file){
+  if(!file)return'';
+  if(!file.type.startsWith('image/'))throw Error('El voucher debe ser una foto');
+  let img=await createImageBitmap(file),max=1100,scale=Math.min(1,max/Math.max(img.width,img.height)),canvas=document.createElement('canvas');
+  canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+  let data=canvas.toDataURL('image/jpeg',.58);img.close?.();if(data.length>650000)throw Error('La foto sigue muy pesada; toma otra más cerca');return data;
+}
+
+function sum(date){
+  let a=uniq(S.a.filter(x=>x.date===date)),sales=a.filter(x=>x.type==='sale'),by={};
+  ['Jorge','Camila'].forEach(p=>{
+    let q=a.filter(x=>(x.people||[x.owner]).includes(p)),vs=q.filter(x=>x.type==='sale'&&x.owner===p);
+    by[p]={acts:q.length,new:new Set(q.filter(x=>x.type==='contact').map(ck)).size,fol:q.filter(x=>x.type==='followup').length,quotes:q.filter(x=>x.type==='quote').length,sales:vs.length,pax:vs.reduce((n,x)=>n+Number(x.pax||0),0),amt:vs.reduce((n,x)=>n+Number(x.amount||0),0)}
+  });
+  return{a,clients:new Set(a.map(ck)).size,sales:sales.length,pax:sales.reduce((n,x)=>n+Number(x.pax||0),0),amt:sales.reduce((n,x)=>n+Number(x.amount||0),0),by}
+}
+function typeName(t){return({contact:'Contacto',followup:'Seguimiento',quote:'Cotización',sale:'Venta',trip:'Viaje'})[t]||t}
+function card(a){
+  const service=['quote','sale','trip'].includes(a.type);
+  return`<article class="activity"><div class="row"><span class="tag ${a.type==='quote'?'quote':''}">${typeName(a.type)}${(a.people||[]).length>1?' · Compartido':''}</span><span class="small mut">${a.date}</span></div>
+  <h3>${esc(a.name)}</h3>
+  <p>${esc(a.phone)} ${a.route?'· '+esc(a.route):''}</p>
+  ${a.travel?`<p>Viaje: <b>${esc(a.travel)}</b></p>`:''}
+  <p><b>${(a.people||[a.owner]).join(' + ')}</b>${service?' · '+cash(a.amount)+' · '+a.pax+' pax':''}</p>
+  ${service?`<p class="small">${a.voucherNo?'Voucher '+esc(a.voucherNo):a.type==='sale'?'⚠️ Voucher pendiente':''}${a.provider?' · '+esc(a.provider):''}${a.paymentStatus?' · '+(a.paymentStatus==='paid'?'Pagado':a.paymentStatus==='partial'?'Abono':'Pago pendiente'):''}</p>`:''}
+  ${a.voucherData?`<details><summary>Ver voucher</summary><img src="${a.voucherData}" style="width:100%;max-height:360px;object-fit:contain;border-radius:12px;margin-top:8px;background:#fff"></details>`:''}
+  ${a.notes?'<p>'+esc(a.notes)+'</p>':''}</article>`
+}
+function week(date){
+  let d=new Date(date+'T12:00:00'),day=d.getDay();d.setDate(d.getDate()+(day===0?-6:1-day));let s=d.toISOString().slice(0,10);d.setDate(d.getDate()+7);let e=d.toISOString().slice(0,10);
+  return new Set(uniq(S.a.filter(x=>x.date>=s&&x.date<e&&x.type==='contact')).map(ck)).size
+}
+function render(){
+  let date=$('date').value,x=sum(date);
+  $('dayTitle').textContent=new Intl.DateTimeFormat('es-GT',{weekday:'long',day:'numeric',month:'long'}).format(new Date(date+'T12:00'));
+  $('clients').textContent=x.clients;$('sales').textContent=x.sales;$('pax').textContent=x.pax;$('amount').textContent=cash(x.amt);
+  $('people').innerHTML=['Jorge','Camila'].map(p=>{let z=x.by[p];return`<div class="person"><h3>${p==='Jorge'?'👨🏻':'👩🏻'} ${p}</h3>${[['Actividades',z.acts],['Clientes nuevos',z.new],['Seguimientos',z.fol],['Cotizaciones',z.quotes],['Ventas',z.sales],['Pasajeros',z.pax],['Vendido',cash(z.amt)]].map(v=>'<div class="metric"><span>'+v[0]+'</span><b>'+v[1]+'</b></div>').join('')}</div>`}).join('');
+  let w=week(date);$('goalText').textContent=w+' / '+S.set.goal;$('goal').style.width=Math.min(100,w/S.set.goal*100)+'%';
+  $('recent').innerHTML=x.a.length?x.a.slice(-6).reverse().map(card).join(''):'<div class="empty">Sin actividad registrada.</div>';
+  history();report();dailyFill();
+}
+function history(){
+  let a=[...S.a].sort((x,y)=>(y.date+(y.created||'')).localeCompare(x.date+(x.created||''))),f=$('filter').value;
+  if(['Jorge','Camila'].includes(f))a=a.filter(x=>(x.people||[x.owner]).includes(f));
+  if(['sale','quote'].includes(f))a=a.filter(x=>x.type===f);
+  $('list').innerHTML=a.length?a.map(card).join(''):'<div class="empty">Sin registros.</div>'
+}
+function complete(x){return x&&x.log&&x.portfolio&&x.follow&&x.alarms}
+function report(){
+  let date=$('rdate').value,x=sum(date),j=S.d[date+'_Jorge'],c=S.d[date+'_Camila'],missing=x.a.filter(a=>a.type==='sale'&&!a.voucherNo).length,ok=complete(j)&&complete(c);
+  let inc=[j?.incidents&&'Jorge: '+j.incidents,c?.incidents&&'Camila: '+c.incidents].filter(Boolean),pri=[j?.priority&&'Jorge: '+j.priority,c?.priority&&'Camila: '+c.priority].filter(Boolean);
+  let quotes=x.a.filter(a=>a.type==='quote').length;
+  let t=[`🚐 *CIERRE CONSOLIDADO — CONCIERGE TANGO*`,`📅 ${date}`,'',`*EQUIPO*`,`• Clientes únicos: ${x.clients}`,`• Cotizaciones: ${quotes}`,`• Ventas: ${x.sales}`,`• Pasajeros: ${x.pax}`,`• Total vendido: ${cash(x.amt)}`,'',
+    ...['Jorge','Camila'].flatMap(p=>{let z=x.by[p],d=S.d[date+'_'+p];return[`*${p.toUpperCase()}*`,`• Actividades: ${z.acts}`,`• Clientes nuevos: ${z.new}`,`• Seguimientos: ${z.fol}`,`• Cotizaciones: ${z.quotes}`,`• Ventas: ${z.sales} · ${z.pax} pax · ${cash(z.amt)}`,`• Cierre personal: ${complete(d)?'✅ Completo':'⚠️ Pendiente'}`,'']}),
+    `*CONTROL*`,`• ${x.clients} clientes únicos en ${x.a.length} actividades, sin duplicados.`,`• Vouchers sin número: ${missing}`,
+    ...(inc.length?['','*PENDIENTES*',...inc.map(v=>'• '+v)]:[]),...(pri.length?['','*PRIORIDAD MAÑANA*',...pri.map(v=>'• '+v)]:[]),'',ok?'✅ *CIERRE COMPLETO*':'⚠️ *CIERRE PENDIENTE*'];
+  $('rstatus').className='status '+(ok?'good':'warn');$('rstatus').textContent=ok?'✅ Cierres personales completos':'⚠️ Pendiente: '+[!complete(j)&&'cierre de Jorge',!complete(c)&&'cierre de Camila'].filter(Boolean).join(', ');
+  $('rstats').innerHTML=[['Clientes',x.clients],['Cotizaciones',quotes],['Ventas',x.sales],['Vendido',cash(x.amt)]].map(v=>`<div class="stat"><b>${v[1]}</b><span>${v[0]}</span></div>`).join('');
+  $('rtext').textContent=t.join('\n');return t.join('\n')
+}
+function dailyFill(){
+  let p=$('profile').value;if(p==='Tatiana')return;
+  let d=S.d[$('adate').value+'_'+p]||{};['log','portfolio','follow','alarms','instagram','tiktok'].forEach(k=>$(k).checked=!!d[k]);
+  $('incidents').value=d.incidents||'';$('priority').value=d.priority||'';$('owner').value=p
+}
+async function saveA(a){
+  a.fp=a.fp||fp(a);a.id=a.id||id();a.people=a.people?.length?a.people:[a.owner];a.created=a.created||new Date().toISOString();
+  let old=S.a.find(x=>(x.fp||fp(x))===a.fp);
+  if(old){Object.assign(old,a,{people:[...new Set([...(old.people||[old.owner]),...(a.people||[a.owner])])]});a=old}else S.a.push(a);
+  saveLocal();render();
+  try{
+    let j=await api('save_activity',{activity:toDb(a)});
+    let db=fromDb(j.activity),i=S.a.findIndex(x=>(x.fp||fp(x))===db.fp);if(i>=0)S.a[i]=db;else S.a.push(db);
+    S.online=true;saveLocal();setSyncUI();render();toast(j.merged?'Actualizado sin duplicar':'Guardado y sincronizado');
+  }catch(e){S.online=false;setSyncUI();toast('Guardado local. Se sincronizará después')}
+}
+
+function updateTypeUI(){
+  const service=['quote','sale','trip'].includes(S.type);
+  $('serviceFields').classList.toggle('hidden',!service);
+  $('voucherWrap').classList.toggle('hidden',S.type==='quote');
+  $('amountLabel').textContent=S.type==='quote'?'Total cotizado (Q)':'Total vendido (Q)';
+  if(S.type==='quote'){$('serviceStatus').value='quoted';$('paymentStatus').value='pending'}
+}
+function view(v){document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id===v));document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.v===v));scrollTo(0,0)}
+document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>view(b.dataset.v));
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>view(b.dataset.go));
+document.querySelectorAll('#types button').forEach(b=>b.onclick=e=>{e.preventDefault();document.querySelectorAll('#types button').forEach(x=>x.classList.remove('active'));b.classList.add('active');S.type=b.dataset.t;updateTypeUI()});
+
+$('form').onsubmit=async e=>{
+  e.preventDefault();
+  try{
+    let voucherData=['sale','trip'].includes(S.type)?await voucherImage($('voucherFile').files[0]):'';
+    let a={type:S.type,owner:$('owner').value,date:$('adate').value,name:$('name').value.trim(),phone:$('phone').value.trim(),ctype:$('ctype').value,channel:$('channel').value,
+      route:$('route').value.trim(),travel:$('travel').value,pax:+$('apax').value||0,amount:+$('aamount').value||0,voucherNo:$('voucherNo').value.trim(),provider:$('provider').value.trim(),
+      paymentStatus:$('paymentStatus').value,serviceStatus:$('serviceStatus').value,voucherData,notes:$('notes').value.trim()};
+    a.fp=fp(a);await saveA(a);$('form').reset();$('adate').value=$('date').value;S.type='contact';document.querySelectorAll('#types button').forEach(x=>x.classList.toggle('active',x.dataset.t==='contact'));updateTypeUI();dailyFill()
+  }catch(err){toast(err.message||'No fue posible guardar')}
+};
+$('clear').onclick=()=>{$('form').reset();$('adate').value=$('date').value;dailyFill()};
+$('saveDaily').onclick=async()=>{
+  let p=$('profile').value;if(p==='Tatiana')return toast('Selecciona Jorge o Camila');
+  let date=$('adate').value,d={owner:p,date,log:$('log').checked,portfolio:$('portfolio').checked,follow:$('follow').checked,alarms:$('alarms').checked,instagram:$('instagram').checked,tiktok:$('tiktok').checked,incidents:$('incidents').value.trim(),priority:$('priority').value.trim(),updated:new Date().toISOString()};
+  S.d[date+'_'+p]=d;saveLocal();render();
+  try{await api('save_daily',{daily:dailyToDb(d)});S.online=true;setSyncUI();toast('Cierre guardado y sincronizado')}catch{S.online=false;setSyncUI();toast('Cierre guardado localmente')}
+};
+$('copy').onclick=async()=>{await navigator.clipboard.writeText(report());toast('Informe copiado')};
+$('share').onclick=async()=>{let text=report();navigator.share?await navigator.share({title:'Cierre Concierge Tango',text}):navigator.clipboard.writeText(text)};
+$('date').onchange=()=>{$('adate').value=$('date').value;$('rdate').value=$('date').value;render()};
+$('rdate').onchange=report;$('filter').onchange=history;
+$('profile').onchange=()=>{localStorage.setItem(K+'p',$('profile').value);dailyFill();if($('profile').value==='Tatiana')view('report')};
+$('saveSet').onclick=()=>{S.set.team=$('team').value;S.set.goal=Math.max(1,+$('ginput').value||20);saveLocal();render();toast('Ajustes guardados')};
+$('forceSync').onclick=()=>syncNow(false);
+$('export').onclick=()=>{let b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='respaldo-concierge-'+today()+'.json';a.click()};
+$('import').onclick=()=>$('file').click();
+$('file').onchange=async e=>{let x=JSON.parse(await e.target.files[0].text());S.a=x.a||[];S.d=x.d||{};S.set=x.set||S.set;saveLocal();render();toast('Respaldo cargado')};
+
+loadLocal();
+let d=today();$('date').value=$('adate').value=$('rdate').value=d;$('profile').value=localStorage.getItem(K+'p')||'Jorge';$('team').value=S.set.team;$('ginput').value=S.set.goal;updateTypeUI();render();setSyncUI();syncNow(true);
+setInterval(()=>{if(document.visibilityState==='visible')syncNow(true)},60000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')syncNow(true)});
+if('serviceWorker'in navigator)navigator.serviceWorker.register('./service-worker.js');
+</script>
+</body>
+</html>
