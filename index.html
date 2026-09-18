@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
+<meta charset="utf-8">x-tango-key
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f97316">
 <title>Cierre Concierge Tango</title>
@@ -170,7 +170,7 @@ function uniq(x){let m=new Map;x.forEach(a=>{let k=a.fp||fp(a);if(m.has(k)){let 
 async function api(action,payload={}){
   const c=window.TANGO_SUPABASE_CONFIG||{};
   if(!c.endpoint||!c.teamKey) throw Error('Configuración de Supabase incompleta');
-  const r=await fetch(c.endpoint,{method:'POST',headers:{'content-type':'application/json','x-tango-key':c.teamKey},body:JSON.stringify({action,...payload})});
+  const r=await fetch(c.endpoint,{method:'POST',body:JSON.stringify({key:c.teamKey,action,...payload})});
   const j=await r.json().catch(()=>({}));
   if(!r.ok) throw Error(j.error||'No fue posible sincronizar');
   return j;
