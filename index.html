@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8">x-tango-key
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f97316">
 <title>Cierre Concierge Tango</title>
@@ -140,8 +140,8 @@ label{display:block;font-size:.73rem;color:var(--mut);font-weight:700;margin-bot
 </section>
 
 <section id="settings" class="view">
-  <div class="card"><div class="ey">Conexión</div><h2>Equipo compartido</h2><div id="cloud" class="notice">Conectando con Tango OS...</div><div class="grid" style="margin-top:10px"><div><label>Equipo</label><input id="team" value="Concierge Tango"></div><div><label>Meta semanal</label><input id="ginput" type="number" value="20"></div></div><div class="actions" style="margin-top:10px"><button id="saveSet" class="btn">Guardar</button><button id="forceSync" class="btn alt">Sincronizar ahora</button></div></div>
-  <div class="card"><h2>Automatización</h2><div class="notice"><b>ChatGPT → Supabase → esta app.</b><br>Las ventas y cotizaciones registradas desde ChatGPT aparecen aquí al sincronizar. Lo que se registre aquí también se guarda en Supabase.</div></div>
+  <div class="card"><div class="ey">Conexión</div><h2>Equipo compartido</h2><div id="cloud" class="notice">Conectando con Tango OS...</div><div class="grid" style="margin-top:10px"><div><label>Equipo</label><input id="team" value="Concierge Tango"></div><div><label>Meta semanal</label><input id="ginput" type="number" value="20"></div></div><div class="actions" style="margin-top:10px"><button id="saveSet" class="btn">Guardar</button><button id="forceSync" class="btn alt">Sincronizar ahora</button><button id="changeAccess" class="btn alt">Cambiar acceso</button></div></div>
+  <div class="card"><h2>Automatización</h2><div class="notice"><b>ChatGPT → Supabase → esta app.</b><br>Cada teléfono usa un acceso individual y revocable. Las ventas y cotizaciones registradas desde ChatGPT aparecen aquí al sincronizar.</div></div>
   <div class="card"><h2>Cómo evita duplicados</h2><p class="small mut">Normaliza WhatsApp o nombre. Si coinciden persona, actividad, ruta y fecha, el backend conserva un solo registro y une responsables cuando corresponde.</p></div>
   <div class="card"><h2>Respaldo local</h2><div class="actions"><button id="export" class="btn alt">Exportar</button><button id="import" class="btn alt">Importar</button><input id="file" class="hidden" type="file" accept=".json"></div></div>
 </section>
@@ -151,8 +151,8 @@ label{display:block;font-size:.73rem;color:var(--mut);font-weight:700;margin-bot
 
 <script src="supabase-config.js"></script>
 <script>
-const K='concierge_tango_supabase_v1';
-const S={a:[],d:{},set:{team:'Concierge Tango',goal:20},type:'contact',online:false};
+const K='concierge_tango_supabase_v1',AUTHK='concierge_secure_token_v1',USERK='concierge_secure_user_v1';
+const S={a:[],d:{},set:{team:'Concierge Tango',goal:20},type:'contact',online:false,user:null};
 const $=x=>document.getElementById(x);
 const today=()=>{let d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)};
 const cash=n=>'Q'+Number(n||0).toLocaleString('es-GT');
@@ -167,13 +167,39 @@ function loadLocal(){try{let x=JSON.parse(localStorage.getItem(K)||'{}');S.a=x.a
 function saveLocal(){localStorage.setItem(K,JSON.stringify({a:S.a,d:S.d,set:S.set}))}
 function uniq(x){let m=new Map;x.forEach(a=>{let k=a.fp||fp(a);if(m.has(k)){let z=m.get(k);z.people=[...new Set([...(z.people||[z.owner]),...(a.people||[a.owner])])]}else m.set(k,{...a})});return[...m.values()]}
 
-async function api(action,payload={}){
-  const c=window.TANGO_SUPABASE_CONFIG||{};
-  if(!c.endpoint||!c.teamKey) throw Error('Configuración de Supabase incompleta');
-  const r=await fetch(c.endpoint,{method:'POST',body:JSON.stringify({key:c.teamKey,action,...payload})});
+async function api(action,payload={},tokenOverride=''){
+  const c=window.TANGO_SUPABASE_CONFIG||{},token=tokenOverride||localStorage.getItem(AUTHK)||'';
+  if(!c.endpoint) throw Error('Configuración de Supabase incompleta');
+  if(!token) throw Error('Acceso individual requerido');
+  const r=await fetch(c.endpoint,{method:'POST',body:JSON.stringify({token,action,...payload})});
   const j=await r.json().catch(()=>({}));
-  if(!r.ok) throw Error(j.error||'No fue posible sincronizar');
+  if(!r.ok) throw Error(j.error||('Error '+r.status));
   return j;
+}
+function applyIdentity(user){
+  if(!user)return;
+  S.user=user;localStorage.setItem(USERK,JSON.stringify(user));
+  let p=$('profile');p.innerHTML='<option>'+esc(user.display_name)+'</option>';p.value=user.display_name;p.disabled=true;
+  localStorage.setItem(K+'p',user.display_name);
+  if(user.role==='viewer'){
+    document.querySelector('[data-v="add"]')?.classList.add('hidden');
+  }else{
+    document.querySelector('[data-v="add"]')?.classList.remove('hidden');
+    if($('owner')&&[...$('owner').options].some(o=>o.value===user.display_name))$('owner').value=user.display_name;
+  }
+}
+async function secureLogin(force=false){
+  let token=force?'':(localStorage.getItem(AUTHK)||'');
+  if(!token)token=(prompt('Ingresa tu código personal de acceso a Concierge Tango')||'').trim();
+  if(!token)return false;
+  try{
+    const j=await api('whoami',{},token);
+    if(!j.user)throw Error('Se requiere acceso individual');
+    localStorage.setItem(AUTHK,token);applyIdentity(j.user);return true;
+  }catch(e){
+    localStorage.removeItem(AUTHK);localStorage.removeItem(USERK);S.user=null;
+    alert(e.message||'Código de acceso inválido');return false;
+  }
 }
 function fromDb(a){return{
   id:a.id,type:a.type,owner:a.owner,date:a.activity_date,name:a.customer_name,phone:a.phone||'',ctype:a.customer_type||'individual',
@@ -194,6 +220,7 @@ async function syncNow(silent=false){
   try{
     const j=await api('sync');
     S.a=(j.activities||[]).map(fromDb);
+    if(j.user)applyIdentity(j.user);
     S.d={};(j.daily||[]).forEach(d=>{let x=dailyFromDb(d);S.d[x.date+'_'+x.owner]=x});
     S.online=true;saveLocal();setSyncUI();render();
     if(!silent)toast('Sincronizado con Tango OS');
@@ -322,13 +349,15 @@ $('rdate').onchange=report;$('filter').onchange=history;
 $('profile').onchange=()=>{localStorage.setItem(K+'p',$('profile').value);dailyFill();if($('profile').value==='Tatiana')view('report')};
 $('saveSet').onclick=()=>{S.set.team=$('team').value;S.set.goal=Math.max(1,+$('ginput').value||20);saveLocal();render();toast('Ajustes guardados')};
 $('forceSync').onclick=()=>syncNow(false);
+$('changeAccess').onclick=async()=>{localStorage.removeItem(AUTHK);localStorage.removeItem(USERK);S.user=null;$('profile').disabled=false;if(await secureLogin(true))await syncNow(false)};
 $('export').onclick=()=>{let b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='respaldo-concierge-'+today()+'.json';a.click()};
 $('import').onclick=()=>$('file').click();
 $('file').onchange=async e=>{let x=JSON.parse(await e.target.files[0].text());S.a=x.a||[];S.d=x.d||{};S.set=x.set||S.set;saveLocal();render();toast('Respaldo cargado')};
 
 loadLocal();
-let d=today();$('date').value=$('adate').value=$('rdate').value=d;$('profile').value=localStorage.getItem(K+'p')||'Jorge';$('team').value=S.set.team;$('ginput').value=S.set.goal;updateTypeUI();render();setSyncUI();syncNow(true);
-setInterval(()=>{if(document.visibilityState==='visible')syncNow(true)},60000);
+let d=today();$('date').value=$('adate').value=$('rdate').value=d;$('profile').value=localStorage.getItem(K+'p')||'Jorge';$('team').value=S.set.team;$('ginput').value=S.set.goal;updateTypeUI();render();setSyncUI();
+(async()=>{if(await secureLogin(false)){await syncNow(true)}else{view('settings');$('cloud').innerHTML='<b>Acceso requerido.</b> Toca “Cambiar acceso” e ingresa tu código personal.'}})();
+setInterval(()=>{if(document.visibilityState==='visible'&&localStorage.getItem(AUTHK))syncNow(true)},60000);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')syncNow(true)});
 if('serviceWorker'in navigator)navigator.serviceWorker.register('./service-worker.js');
 </script>
