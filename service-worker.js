@@ -1,5 +1,5 @@
-const CACHE='cierre-tango-v8-secure';
-const ASSETS=['./','./index.html','./manifest.webmanifest','./supabase-config.js','./icon-192.png','./icon-512.png','./icon-192.png?v=8','./icon-512.png?v=8'];
+const CACHE='cierre-tango-v8-final';
+const ASSETS=['./','./index.html','./manifest.webmanifest','./supabase-config.js','./icon-192.png','./icon-512.png','./icon-192.png?v=8-final','./icon-512.png?v=8-final'];
 
 self.addEventListener('install',e=>{
   self.skipWaiting();
