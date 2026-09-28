@@ -125,7 +125,7 @@ label{display:block;font-size:.73rem;color:var(--mut);font-weight:700;margin-bot
 </section>
 
 <section id="report" class="view">
-  <div class="card"><div class="row"><div><div class="ey">Para Tatiana</div><h2>Cierre consolidado</h2></div><input id="rdate" type="date" style="width:145px"></div><p class="small mut">Une ambos avances y elimina clientes y servicios repetidos.</p><div id="rstatus" class="status warn"></div></div>
+  <div class="card"><div class="row"><div><div class="ey">Para Tatiana</div><h2 id="rtitle">Cierre consolidado</h2></div><div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><select id="rtype" style="width:130px"><option value="day">Diario</option><option value="week">Semanal L–V</option><option value="month">Mensual</option></select><input id="rdate" type="date" style="width:145px"></div></div><p class="small mut">Resume actividades sin duplicados y compara con el período anterior.</p><div id="rstatus" class="status warn"></div></div>
   <div class="card"><div id="rstats" class="stats"></div></div>
   <div class="card"><h2>Informe para WhatsApp</h2><div id="rtext" class="report"></div><div class="actions" style="margin-top:10px"><button id="copy" class="btn">Copiar</button><button id="share" class="btn dark">Compartir</button></div></div>
 </section>
@@ -284,16 +284,35 @@ function history(){
   $('list').innerHTML=a.length?a.map(card).join(''):'<div class="empty">Sin registros.</div>'
 }
 function complete(x){return x&&x.log&&x.portfolio&&x.follow&&x.alarms}
+function isoDate(d){let x=new Date(d);x.setMinutes(x.getMinutes()-x.getTimezoneOffset());return x.toISOString().slice(0,10)}
+function addDays(date,n){let d=new Date(date+'T12:00:00');d.setDate(d.getDate()+n);return isoDate(d)}
+function periodRange(kind,date){
+  if(kind==='day')return{start:date,end:date,prevStart:addDays(date,-1),prevEnd:addDays(date,-1),label:date,prevLabel:addDays(date,-1)};
+  let d=new Date(date+'T12:00:00');
+  if(kind==='week'){
+    let day=d.getDay(),start=addDays(date,day===0?-6:1-day),end=addDays(start,4);
+    return{start,end,prevStart:addDays(start,-7),prevEnd:addDays(end,-7),label:`${start} al ${end}`,prevLabel:`${addDays(start,-7)} al ${addDays(end,-7)}`}
+  }
+  let start=isoDate(new Date(d.getFullYear(),d.getMonth(),1,12)),end=isoDate(new Date(d.getFullYear(),d.getMonth()+1,0,12));
+  let ps=isoDate(new Date(d.getFullYear(),d.getMonth()-1,1,12)),pe=isoDate(new Date(d.getFullYear(),d.getMonth(),0,12));
+  return{start,end,prevStart:ps,prevEnd:pe,label:new Intl.DateTimeFormat('es-GT',{month:'long',year:'numeric'}).format(d),prevLabel:new Intl.DateTimeFormat('es-GT',{month:'long',year:'numeric'}).format(new Date(ps+'T12:00:00'))}
+}
+function periodSum(start,end){
+  let a=uniq(S.a.filter(x=>x.date>=start&&x.date<=end)),sales=a.filter(x=>x.type==='sale'),owners=[...new Set(['Jorge','Camila',...a.flatMap(x=>x.people||[x.owner]).filter(Boolean)])],by={};
+  owners.forEach(p=>{let q=a.filter(x=>(x.people||[x.owner]).includes(p)),vs=q.filter(x=>x.type==='sale'&&x.owner===p);by[p]={acts:q.length,contacts:q.filter(x=>x.type==='contact').length,fol:q.filter(x=>x.type==='followup').length,quotes:q.filter(x=>x.type==='quote').length,trips:q.filter(x=>x.type==='trip').length,sales:vs.length,pax:vs.reduce((n,x)=>n+Number(x.pax||0),0),amt:vs.reduce((n,x)=>n+Number(x.amount||0),0)}});
+  return{a,by,owners,days:new Set(a.map(x=>x.date)).size,clients:new Set(a.map(ck)).size,contacts:a.filter(x=>x.type==='contact').length,fol:a.filter(x=>x.type==='followup').length,quotes:a.filter(x=>x.type==='quote').length,trips:a.filter(x=>x.type==='trip').length,sales:sales.length,pax:sales.reduce((n,x)=>n+Number(x.pax||0),0),amt:sales.reduce((n,x)=>n+Number(x.amount||0),0)}
+}
+function comparison(now,before,money=false){let diff=Number(now||0)-Number(before||0),arrow=diff>0?'▲':diff<0?'▼':'•',pct=before?Math.round(Math.abs(diff)/Math.abs(before)*100)+'%':now?'nuevo':'0%';return`${money?cash(now):now} (${arrow} ${money?cash(Math.abs(diff)):Math.abs(diff)} · ${pct})`}
 function report(){
-  let date=$('rdate').value,x=sum(date),j=S.d[date+'_Jorge'],c=S.d[date+'_Camila'],missing=x.a.filter(a=>a.type==='sale'&&!a.voucherNo).length,ok=complete(j)&&complete(c);
-  let inc=[j?.incidents&&'Jorge: '+j.incidents,c?.incidents&&'Camila: '+c.incidents].filter(Boolean),pri=[j?.priority&&'Jorge: '+j.priority,c?.priority&&'Camila: '+c.priority].filter(Boolean);
-  let quotes=x.a.filter(a=>a.type==='quote').length;
-  let t=[`🚐 *CIERRE CONSOLIDADO — CONCIERGE TANGO*`,`📅 ${date}`,'',`*EQUIPO*`,`• Clientes únicos: ${x.clients}`,`• Cotizaciones: ${quotes}`,`• Ventas: ${x.sales}`,`• Pasajeros: ${x.pax}`,`• Total vendido: ${cash(x.amt)}`,'',
-    ...['Jorge','Camila'].flatMap(p=>{let z=x.by[p],d=S.d[date+'_'+p];return[`*${p.toUpperCase()}*`,`• Actividades: ${z.acts}`,`• Clientes nuevos: ${z.new}`,`• Seguimientos: ${z.fol}`,`• Cotizaciones: ${z.quotes}`,`• Ventas: ${z.sales} · ${z.pax} pax · ${cash(z.amt)}`,`• Cierre personal: ${complete(d)?'✅ Completo':'⚠️ Pendiente'}`,'']}),
+  let kind=$('rtype').value,date=$('rdate').value,r=periodRange(kind,date),x=periodSum(r.start,r.end),prev=periodSum(r.prevStart,r.prevEnd),daily=kind==='day',j=S.d[date+'_Jorge'],c=S.d[date+'_Camila'],missing=x.a.filter(a=>a.type==='sale'&&!a.voucherNo).length,ok=!daily||(complete(j)&&complete(c));
+  let inc=daily?[j?.incidents&&'Jorge: '+j.incidents,c?.incidents&&'Camila: '+c.incidents].filter(Boolean):[],pri=daily?[j?.priority&&'Jorge: '+j.priority,c?.priority&&'Camila: '+c.priority].filter(Boolean):[];
+  let label={day:'CIERRE DIARIO',week:'RESUMEN SEMANAL',month:'RESUMEN MENSUAL'}[kind],title={day:'Cierre consolidado',week:'Resumen semanal',month:'Resumen mensual'}[kind];$('rtitle').textContent=title;
+  let t=[`🚐 *${label} — CONCIERGE TANGO*`,`📅 ${r.label}`,'',`*ACTIVIDAD DEL EQUIPO*`,`• Actividades: ${x.a.length}`,`• Días con actividad: ${x.days}`,`• Clientes únicos: ${x.clients}`,`• Contactos: ${x.contacts}`,`• Seguimientos: ${x.fol}`,`• Cotizaciones: ${x.quotes}`,`• Ventas: ${x.sales}`,`• Viajes: ${x.trips}`,`• Pasajeros vendidos: ${x.pax}`,`• Total vendido: ${cash(x.amt)}`,'',`*COMPARACIÓN CON ${r.prevLabel.toUpperCase()}*`,`• Actividades: ${comparison(x.a.length,prev.a.length)}`,`• Clientes únicos: ${comparison(x.clients,prev.clients)}`,`• Cotizaciones: ${comparison(x.quotes,prev.quotes)}`,`• Ventas: ${comparison(x.sales,prev.sales)}`,`• Pasajeros: ${comparison(x.pax,prev.pax)}`,`• Total vendido: ${comparison(x.amt,prev.amt,true)}`,'',
+    ...x.owners.filter(p=>x.by[p]?.acts||prev.by[p]?.acts).flatMap(p=>{let z=x.by[p]||{acts:0,contacts:0,fol:0,quotes:0,trips:0,sales:0,pax:0,amt:0},d=S.d[date+'_'+p];return[`*${p.toUpperCase()}*`,`• Actividades: ${z.acts}`,`• Contactos: ${z.contacts} · Seguimientos: ${z.fol}`,`• Cotizaciones: ${z.quotes} · Viajes: ${z.trips}`,`• Ventas: ${z.sales} · ${z.pax} pax · ${cash(z.amt)}`,...(daily?[`• Cierre personal: ${complete(d)?'✅ Completo':'⚠️ Pendiente'}`]:[]),'']}),
     `*CONTROL*`,`• ${x.clients} clientes únicos en ${x.a.length} actividades, sin duplicados.`,`• Vouchers sin número: ${missing}`,
-    ...(inc.length?['','*PENDIENTES*',...inc.map(v=>'• '+v)]:[]),...(pri.length?['','*PRIORIDAD MAÑANA*',...pri.map(v=>'• '+v)]:[]),'',ok?'✅ *CIERRE COMPLETO*':'⚠️ *CIERRE PENDIENTE*'];
-  $('rstatus').className='status '+(ok?'good':'warn');$('rstatus').textContent=ok?'✅ Cierres personales completos':'⚠️ Pendiente: '+[!complete(j)&&'cierre de Jorge',!complete(c)&&'cierre de Camila'].filter(Boolean).join(', ');
-  $('rstats').innerHTML=[['Clientes',x.clients],['Cotizaciones',quotes],['Ventas',x.sales],['Vendido',cash(x.amt)]].map(v=>`<div class="stat"><b>${v[1]}</b><span>${v[0]}</span></div>`).join('');
+    ...(inc.length?['','*PENDIENTES*',...inc.map(v=>'• '+v)]:[]),...(pri.length?['','*PRIORIDAD MAÑANA*',...pri.map(v=>'• '+v)]:[]),'',daily?(ok?'✅ *CIERRE COMPLETO*':'⚠️ *CIERRE PENDIENTE*'):'✅ *RESUMEN LISTO PARA COMPARTIR*'];
+  $('rstatus').className='status '+(ok?'good':'warn');$('rstatus').textContent=daily?(ok?'✅ Cierres personales completos':'⚠️ Pendiente: '+[!complete(j)&&'cierre de Jorge',!complete(c)&&'cierre de Camila'].filter(Boolean).join(', ')):`Comparado con ${r.prevLabel} · ${x.a.length} actividades`;
+  $('rstats').innerHTML=[['Actividades',x.a.length],['Clientes',x.clients],['Ventas',x.sales],['Vendido',cash(x.amt)]].map(v=>`<div class="stat"><b>${v[1]}</b><span>${v[0]}</span></div>`).join('');
   $('rtext').textContent=t.join('\n');return t.join('\n')
 }
 function dailyFill(){
@@ -345,7 +364,7 @@ $('saveDaily').onclick=async()=>{
 $('copy').onclick=async()=>{await navigator.clipboard.writeText(report());toast('Informe copiado')};
 $('share').onclick=async()=>{let text=report();navigator.share?await navigator.share({title:'Cierre Concierge Tango',text}):navigator.clipboard.writeText(text)};
 $('date').onchange=()=>{$('adate').value=$('date').value;$('rdate').value=$('date').value;render()};
-$('rdate').onchange=report;$('filter').onchange=history;
+$('rdate').onchange=report;$('rtype').onchange=report;$('filter').onchange=history;
 $('profile').onchange=()=>{localStorage.setItem(K+'p',$('profile').value);dailyFill();if($('profile').value==='Tatiana')view('report')};
 $('saveSet').onclick=()=>{S.set.team=$('team').value;S.set.goal=Math.max(1,+$('ginput').value||20);saveLocal();render();toast('Ajustes guardados')};
 $('forceSync').onclick=()=>syncNow(false);
