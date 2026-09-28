@@ -1,4 +1,4 @@
-const CACHE='cierre-tango-v9-reportes';
+const CACHE='cierre-tango-v10-tatiana';
 const ASSETS=['./','./index.html','./manifest.webmanifest','./supabase-config.js','./icon-192.png','./icon-512.png'];
 
 self.addEventListener('install',e=>{

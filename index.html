@@ -87,7 +87,7 @@ label{display:block;font-size:.73rem;color:var(--mut);font-weight:700;margin-bot
 
   <form id="form" class="card">
     <div class="grid">
-      <div><label>Responsable *</label><select id="owner"><option>Jorge</option><option>Camila</option></select></div>
+      <div><label>Responsable *</label><select id="owner"><option>Jorge</option><option>Camila</option><option>Tatiana</option></select></div>
       <div><label>Fecha *</label><input id="adate" type="date" required></div>
       <div><label>Cliente / empresa *</label><input id="name" required placeholder="Nombre"></div>
       <div><label>WhatsApp</label><input id="phone" inputmode="tel" placeholder="+502..."></div>
@@ -133,7 +133,7 @@ label{display:block;font-size:.73rem;color:var(--mut);font-weight:700;margin-bot
 <section id="history" class="view">
   <div class="card">
     <div class="row"><div><div class="ey">Registro maestro</div><h2>Actividades</h2></div>
-      <select id="filter" style="width:135px"><option value="all">Todo</option><option>Jorge</option><option>Camila</option><option value="quote">Cotizaciones</option><option value="sale">Ventas</option></select>
+      <select id="filter" style="width:135px"><option value="all">Todo</option><option>Jorge</option><option>Camila</option><option>Tatiana</option><option value="quote">Cotizaciones</option><option value="sale">Ventas</option></select>
     </div>
     <div id="list"></div>
   </div>
@@ -151,7 +151,7 @@ label{display:block;font-size:.73rem;color:var(--mut);font-weight:700;margin-bot
 
 <script src="supabase-config.js"></script>
 <script>
-const K='concierge_tango_supabase_v1',AUTHK='concierge_secure_token_v1',USERK='concierge_secure_user_v1';
+const K='concierge_tango_supabase_v1',AUTHK='concierge_secure_token_v1',USERK='concierge_secure_user_v1',PEOPLE=['Jorge','Camila','Tatiana'];
 const S={a:[],d:{},set:{team:'Concierge Tango',goal:20},type:'contact',online:false,user:null};
 const $=x=>document.getElementById(x);
 const today=()=>{let d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)};
@@ -246,7 +246,7 @@ async function voucherImage(file){
 
 function sum(date){
   let a=uniq(S.a.filter(x=>x.date===date)),sales=a.filter(x=>x.type==='sale'),by={};
-  ['Jorge','Camila'].forEach(p=>{
+  PEOPLE.forEach(p=>{
     let q=a.filter(x=>(x.people||[x.owner]).includes(p)),vs=q.filter(x=>x.type==='sale'&&x.owner===p);
     by[p]={acts:q.length,new:new Set(q.filter(x=>x.type==='contact').map(ck)).size,fol:q.filter(x=>x.type==='followup').length,quotes:q.filter(x=>x.type==='quote').length,sales:vs.length,pax:vs.reduce((n,x)=>n+Number(x.pax||0),0),amt:vs.reduce((n,x)=>n+Number(x.amount||0),0)}
   });
@@ -272,14 +272,14 @@ function render(){
   let date=$('date').value,x=sum(date);
   $('dayTitle').textContent=new Intl.DateTimeFormat('es-GT',{weekday:'long',day:'numeric',month:'long'}).format(new Date(date+'T12:00'));
   $('clients').textContent=x.clients;$('sales').textContent=x.sales;$('pax').textContent=x.pax;$('amount').textContent=cash(x.amt);
-  $('people').innerHTML=['Jorge','Camila'].map(p=>{let z=x.by[p];return`<div class="person"><h3>${p==='Jorge'?'👨🏻':'👩🏻'} ${p}</h3>${[['Actividades',z.acts],['Clientes nuevos',z.new],['Seguimientos',z.fol],['Cotizaciones',z.quotes],['Ventas',z.sales],['Pasajeros',z.pax],['Vendido',cash(z.amt)]].map(v=>'<div class="metric"><span>'+v[0]+'</span><b>'+v[1]+'</b></div>').join('')}</div>`}).join('');
+  $('people').innerHTML=PEOPLE.map(p=>{let z=x.by[p];return`<div class="person"><h3>${p==='Jorge'?'👨🏻':'👩🏻'} ${p}</h3>${[['Actividades',z.acts],['Clientes nuevos',z.new],['Seguimientos',z.fol],['Cotizaciones',z.quotes],['Ventas',z.sales],['Pasajeros',z.pax],['Vendido',cash(z.amt)]].map(v=>'<div class="metric"><span>'+v[0]+'</span><b>'+v[1]+'</b></div>').join('')}</div>`}).join('');
   let w=week(date);$('goalText').textContent=w+' / '+S.set.goal;$('goal').style.width=Math.min(100,w/S.set.goal*100)+'%';
   $('recent').innerHTML=x.a.length?x.a.slice(-6).reverse().map(card).join(''):'<div class="empty">Sin actividad registrada.</div>';
   history();report();dailyFill();
 }
 function history(){
   let a=[...S.a].sort((x,y)=>(y.date+(y.created||'')).localeCompare(x.date+(x.created||''))),f=$('filter').value;
-  if(['Jorge','Camila'].includes(f))a=a.filter(x=>(x.people||[x.owner]).includes(f));
+  if(PEOPLE.includes(f))a=a.filter(x=>(x.people||[x.owner]).includes(f));
   if(['sale','quote'].includes(f))a=a.filter(x=>x.type===f);
   $('list').innerHTML=a.length?a.map(card).join(''):'<div class="empty">Sin registros.</div>'
 }
@@ -298,7 +298,7 @@ function periodRange(kind,date){
   return{start,end,prevStart:ps,prevEnd:pe,label:new Intl.DateTimeFormat('es-GT',{month:'long',year:'numeric'}).format(d),prevLabel:new Intl.DateTimeFormat('es-GT',{month:'long',year:'numeric'}).format(new Date(ps+'T12:00:00'))}
 }
 function periodSum(start,end){
-  let a=uniq(S.a.filter(x=>x.date>=start&&x.date<=end)),sales=a.filter(x=>x.type==='sale'),owners=[...new Set(['Jorge','Camila',...a.flatMap(x=>x.people||[x.owner]).filter(Boolean)])],by={};
+  let a=uniq(S.a.filter(x=>x.date>=start&&x.date<=end)),sales=a.filter(x=>x.type==='sale'),owners=[...new Set([...PEOPLE,...a.flatMap(x=>x.people||[x.owner]).filter(Boolean)])],by={};
   owners.forEach(p=>{let q=a.filter(x=>(x.people||[x.owner]).includes(p)),vs=q.filter(x=>x.type==='sale'&&x.owner===p);by[p]={acts:q.length,contacts:q.filter(x=>x.type==='contact').length,fol:q.filter(x=>x.type==='followup').length,quotes:q.filter(x=>x.type==='quote').length,trips:q.filter(x=>x.type==='trip').length,sales:vs.length,pax:vs.reduce((n,x)=>n+Number(x.pax||0),0),amt:vs.reduce((n,x)=>n+Number(x.amount||0),0)}});
   return{a,by,owners,days:new Set(a.map(x=>x.date)).size,clients:new Set(a.map(ck)).size,contacts:a.filter(x=>x.type==='contact').length,fol:a.filter(x=>x.type==='followup').length,quotes:a.filter(x=>x.type==='quote').length,trips:a.filter(x=>x.type==='trip').length,sales:sales.length,pax:sales.reduce((n,x)=>n+Number(x.pax||0),0),amt:sales.reduce((n,x)=>n+Number(x.amount||0),0)}
 }
