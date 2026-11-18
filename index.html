@@ -42,7 +42,7 @@ label{display:block;font-size:.73rem;color:var(--mut);font-weight:700;margin-bot
 <body>
 <div class="app">
 <header class="hero">
-  <div class="head"><img src="icon-192.png?v=8" alt="Concierge Tango"><div><h1>Cierre Concierge Tango</h1><p>Progreso individual · un solo equipo · cero duplicados</p></div></div>
+  <div class="head"><img src="icon-192.png?v=8" alt="Concierge Tango"><div><h1>Cierre Concierge Tango <span style="font-size:.62em;opacity:.85">v11</span></h1><p>Progreso individual · un solo equipo · cero duplicados</p></div></div>
   <div class="sync">
     <div><span id="dot" class="dot"></span><b id="sync">Conectando...</b><div id="syncd">Supabase Tango OS</div></div>
     <div>Perfil <select id="profile"><option>Jorge</option><option>Camila</option><option>Tatiana</option></select></div>
@@ -71,6 +71,26 @@ label{display:block;font-size:.73rem;color:var(--mut);font-weight:700;margin-bot
   <div class="card"><div class="row"><h2>Avance individual</h2><span class="tag">Sin duplicar</span></div><div id="people" class="people"></div></div>
   <div class="card"><div class="row"><h2>Meta semanal</h2><b id="goalText">0 / 20</b></div><div class="bar"><i id="goal" style="width:0"></i></div><p class="small mut">Cuenta clientes únicos, no contactos repetidos.</p></div>
   <div class="card"><div class="row"><h2>Actividad del día</h2><button class="btn alt" data-go="add">+ Registrar</button></div><div id="recent"></div></div>
+
+  <div class="card" id="dailyCard">
+    <div class="ey">Cierre de turno · 6 respuestas</div>
+    <h2>Mi cierre rápido</h2>
+    <p class="small mut">Solo lo importante. Si no hubo actividad, escribí «Ninguno».</p>
+    <label for="dailySales">1. ¿Cuánto vendiste hoy? (Q)</label>
+    <input id="dailySales" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00">
+    <label for="dailyVouchers" style="margin-top:12px">2. ¿Cuáles son los correlativos?</label>
+    <input id="dailyVouchers" placeholder="112, 113 · o Ninguno">
+    <label for="dailyReportUpdated" style="margin-top:12px">3. ¿Están actualizados en el reporte de ventas?</label>
+    <select id="dailyReportUpdated"><option value="">Seleccioná</option><option value="yes">Sí</option><option value="no">No</option></select>
+    <label for="dailyOutreach" style="margin-top:12px">4. ¿A quiénes buscaste hoy? (correo o WhatsApp)</label>
+    <textarea id="dailyOutreach" rows="2" placeholder="Nombres y medio · o Ninguno"></textarea>
+    <label for="dailyProviders" style="margin-top:12px">5. ¿A qué empresa proveedora le hablaste hoy?</label>
+    <input id="dailyProviders" placeholder="Ej.: Maya Travel · o Ninguna">
+    <label for="dailyLeads" style="margin-top:12px">6. ¿Qué cliente potencial nuevo contactaste?</label>
+    <input id="dailyLeads" placeholder="Nombre o Ninguno">
+    <button id="saveDaily" class="btn" style="margin-top:14px;width:100%">Guardar cierre</button>
+    <p id="closureHint" class="small mut" style="margin-top:8px">Este cierre no duplica tus ventas ni borra el historial.</p>
+  </div>
 </section>
 
 <section id="add" class="view">
@@ -111,17 +131,6 @@ label{display:block;font-size:.73rem;color:var(--mut);font-weight:700;margin-bot
     <div class="actions" style="margin-top:11px"><button class="btn">Guardar actividad</button><button type="button" id="clear" class="btn alt">Limpiar</button></div>
   </form>
 
-  <div class="card">
-    <h2>Mi cierre personal</h2><p class="small mut">Cada uno completa solamente su control.</p>
-    <label class="check"><input id="log" type="checkbox">Bitácora al día</label>
-    <label class="check"><input id="portfolio" type="checkbox">Cartera ordenada</label>
-    <label class="check"><input id="follow" type="checkbox">Seguimientos al día</label>
-    <label class="check"><input id="alarms" type="checkbox">Alertas de viajes creadas</label>
-    <label class="check"><input id="instagram" type="checkbox">Instagram publicado</label>
-    <label class="check"><input id="tiktok" type="checkbox">TikTok publicado</label>
-    <div class="grid"><div><label>Pendientes / incidencias</label><textarea id="incidents"></textarea></div><div><label>Prioridad para mañana</label><textarea id="priority"></textarea></div></div>
-    <button id="saveDaily" class="btn" style="margin-top:10px">Guardar mi cierre</button>
-  </div>
 </section>
 
 <section id="report" class="view">
@@ -213,15 +222,34 @@ function toDb(a){return{
   provider:a.provider||'',payment_status:a.paymentStatus||'pending',service_status:a.serviceStatus||(['quote'].includes(a.type)?'quoted':'reserved'),
   notes:a.notes||'',fingerprint:a.fp||fp(a),people:a.people?.length?a.people:[a.owner],source:'app',voucher_data:a.voucherData||''
 }}
-function dailyFromDb(d){return{owner:d.owner,date:d.close_date,log:!!d.log,portfolio:!!d.portfolio,follow:!!d.follow,alarms:!!d.alarms,instagram:!!d.instagram,tiktok:!!d.tiktok,incidents:d.incidents||'',priority:d.priority||'',updated:d.updated_at||''}}
-function dailyToDb(d){return{id:d.date+'_'+d.owner,owner:d.owner,close_date:d.date,log:!!d.log,portfolio:!!d.portfolio,follow:!!d.follow,alarms:!!d.alarms,instagram:!!d.instagram,tiktok:!!d.tiktok,incidents:d.incidents||'',priority:d.priority||''}}
+function dailyFromDb(d){return{
+  owner:d.owner,date:d.close_date,log:!!d.log,portfolio:!!d.portfolio,follow:!!d.follow,alarms:!!d.alarms,instagram:!!d.instagram,tiktok:!!d.tiktok,
+  incidents:d.incidents||'',priority:d.priority||'',updated:d.updated_at||'',
+  dailySalesGTQ:d.daily_sales_gtq==null?null:Number(d.daily_sales_gtq),dailyVouchers:d.daily_vouchers||'',
+  salesReportUpdated:d.sales_report_updated==null?null:!!d.sales_report_updated,outreachContacts:d.outreach_contacts||'',
+  providerContacts:d.provider_contacts||'',newLeads:d.new_leads||'',closureFormat:d.closure_format||''
+}}
+function dailyToDb(d){return{
+  id:d.date+'_'+d.owner,owner:d.owner,close_date:d.date,
+  log:!!d.log,portfolio:!!d.portfolio,follow:!!d.follow,alarms:!!d.alarms,instagram:!!d.instagram,tiktok:!!d.tiktok,
+  incidents:d.incidents||'',priority:d.priority||'',
+  daily_sales_gtq:d.dailySalesGTQ==null?null:Number(d.dailySalesGTQ),daily_vouchers:d.dailyVouchers||'',
+  sales_report_updated:d.salesReportUpdated==null?null:!!d.salesReportUpdated,
+  outreach_contacts:d.outreachContacts||'',provider_contacts:d.providerContacts||'',new_leads:d.newLeads||'',
+  closure_format:d.closureFormat||null
+}}
 
 async function syncNow(silent=false){
   try{
     const j=await api('sync');
     S.a=(j.activities||[]).map(fromDb);
     if(j.user)applyIdentity(j.user);
+    const pendientes=Object.values(S.d).filter(d=>d&&d._pendingSync===true&&d.closureFormat==='simple_v1');
     S.d={};(j.daily||[]).forEach(d=>{let x=dailyFromDb(d);S.d[x.date+'_'+x.owner]=x});
+    for(const d of pendientes){
+      try{await api('save_daily',{daily:dailyToDb(d)});d._pendingSync=false}catch(err){}
+      S.d[d.date+'_'+d.owner]=d;
+    }
     S.online=true;saveLocal();setSyncUI();render();
     if(!silent)toast('Sincronizado con Tango OS');
   }catch(e){
@@ -283,7 +311,7 @@ function history(){
   if(['sale','quote'].includes(f))a=a.filter(x=>x.type===f);
   $('list').innerHTML=a.length?a.map(card).join(''):'<div class="empty">Sin registros.</div>'
 }
-function complete(x){return x&&x.log&&x.portfolio&&x.follow&&x.alarms}
+function complete(x){return !!(x&&(x.closureFormat==='simple_v1'&&x.dailySalesGTQ!=null&&x.salesReportUpdated!=null || x.log&&x.portfolio&&x.follow&&x.alarms))}
 function isoDate(d){let x=new Date(d);x.setMinutes(x.getMinutes()-x.getTimezoneOffset());return x.toISOString().slice(0,10)}
 function addDays(date,n){let d=new Date(date+'T12:00:00');d.setDate(d.getDate()+n);return isoDate(d)}
 function periodRange(kind,date){
@@ -313,12 +341,37 @@ function report(){
     ...(inc.length?['','*PENDIENTES*',...inc.map(v=>'• '+v)]:[]),...(pri.length?['','*PRIORIDAD MAÑANA*',...pri.map(v=>'• '+v)]:[]),'',daily?(ok?'✅ *CIERRE COMPLETO*':'⚠️ *CIERRE PENDIENTE*'):'✅ *RESUMEN LISTO PARA COMPARTIR*'];
   $('rstatus').className='status '+(ok?'good':'warn');$('rstatus').textContent=daily?(ok?'✅ Cierres personales completos':'⚠️ Pendiente: '+[!complete(j)&&'cierre de Jorge',!complete(c)&&'cierre de Camila'].filter(Boolean).join(', ')):`Comparado con ${r.prevLabel} · ${x.a.length} actividades`;
   $('rstats').innerHTML=[['Actividades',x.a.length],['Clientes',x.clients],['Ventas',x.sales],['Vendido',cash(x.amt)]].map(v=>`<div class="stat"><b>${v[1]}</b><span>${v[0]}</span></div>`).join('');
+  if(daily){
+    t.push('','*CIERRE RÁPIDO DEL EQUIPO*');
+    for(const p of ['Jorge','Camila']){
+      const d=S.d[date+'_'+p];
+      if(d&&d.closureFormat==='simple_v1'){
+        t.push('*'+p+'*','• Vendido declarado: '+cash(d.dailySalesGTQ),
+          '• Correlativos: '+(d.dailyVouchers||'Ninguno'),
+          '• Reporte actualizado: '+(d.salesReportUpdated?'Sí':'No'),
+          '• Contactos WhatsApp/correo: '+(d.outreachContacts||'Ninguno'),
+          '• Proveedores contactados: '+(d.providerContacts||'Ninguna'),
+          '• Clientes potenciales: '+(d.newLeads||'Ninguno'));
+      }else t.push('• '+p+': cierre rápido pendiente');
+    }
+  }
   $('rtext').textContent=t.join('\n');return t.join('\n')
 }
 function dailyFill(){
-  let p=$('profile').value;if(p==='Tatiana')return;
-  let d=S.d[$('adate').value+'_'+p]||{};['log','portfolio','follow','alarms','instagram','tiktok'].forEach(k=>$(k).checked=!!d[k]);
-  $('incidents').value=d.incidents||'';$('priority').value=d.priority||'';$('owner').value=p
+  const p=$('profile').value;
+  if($('owner'))$('owner').value=p;
+  if(p==='Tatiana'){if($('dailyCard'))$('dailyCard').classList.add('hidden');return}
+  if($('dailyCard'))$('dailyCard').classList.remove('hidden');
+  const d=S.d[$('date').value+'_'+p]||{};
+  $('dailySales').value=d.dailySalesGTQ==null?'':d.dailySalesGTQ;
+  $('dailyVouchers').value=d.dailyVouchers||'';
+  $('dailyReportUpdated').value=d.salesReportUpdated==null?'':d.salesReportUpdated?'yes':'no';
+  $('dailyOutreach').value=d.outreachContacts||'';
+  $('dailyProviders').value=d.providerContacts||'';
+  $('dailyLeads').value=d.newLeads||'';
+  $('closureHint').textContent=d.closureFormat==='simple_v1'?
+    'Cierre de '+$('date').value+' registrado. Podés corregirlo y volver a guardar.':
+    'Solo monto y estado del reporte son obligatorios. No duplica ventas.';
 }
 async function saveA(a){
   a.fp=a.fp||fp(a);a.id=a.id||id();a.people=a.people?.length?a.people:[a.owner];a.created=a.created||new Date().toISOString();
@@ -356,10 +409,23 @@ $('form').onsubmit=async e=>{
 };
 $('clear').onclick=()=>{$('form').reset();$('adate').value=$('date').value;dailyFill()};
 $('saveDaily').onclick=async()=>{
-  let p=$('profile').value;if(p==='Tatiana')return toast('Selecciona Jorge o Camila');
-  let date=$('adate').value,d={owner:p,date,log:$('log').checked,portfolio:$('portfolio').checked,follow:$('follow').checked,alarms:$('alarms').checked,instagram:$('instagram').checked,tiktok:$('tiktok').checked,incidents:$('incidents').value.trim(),priority:$('priority').value.trim(),updated:new Date().toISOString()};
+  let p=$('profile').value;if(p==='Tatiana'||S.user?.role==='viewer')return toast('Acceso de lectura: cierre no permitido');
+  const date=$('date').value,raw=$('dailySales').value.trim(),status=$('dailyReportUpdated').value;
+  if(!raw||!Number.isFinite(Number(raw))||Number(raw)<0)return toast('¿Cuánto vendiste? Si no hubo ventas, Q0.');
+  if(status!=='yes'&&status!=='no')return toast('Indica si actualizaste el reporte de ventas');
+  const d={...(S.d[date+'_'+p]||{}),owner:p,date,
+    dailySalesGTQ:Number(raw),dailyVouchers:$('dailyVouchers').value.trim()||'Ninguno',
+    salesReportUpdated:status==='yes',outreachContacts:$('dailyOutreach').value.trim()||'Ninguno',
+    providerContacts:$('dailyProviders').value.trim()||'Ninguna',newLeads:$('dailyLeads').value.trim()||'Ninguno',
+    closureFormat:'simple_v1',updated:new Date().toISOString(),_pendingSync:true};
   S.d[date+'_'+p]=d;saveLocal();render();
-  try{await api('save_daily',{daily:dailyToDb(d)});S.online=true;setSyncUI();toast('Cierre guardado y sincronizado')}catch{S.online=false;setSyncUI();toast('Cierre guardado localmente')}
+  try{
+    await api('save_daily',{daily:dailyToDb(d)});
+    d._pendingSync=false;S.d[date+'_'+p]=d;saveLocal();
+    S.online=true;setSyncUI();toast('Cierre guardado y sincronizado');
+  }catch(e){
+    S.online=false;setSyncUI();toast('Guardado en el móvil; se reintentará al conectarse');
+  }
 };
 $('copy').onclick=async()=>{await navigator.clipboard.writeText(report());toast('Informe copiado')};
 $('share').onclick=async()=>{let text=report();navigator.share?await navigator.share({title:'Cierre Concierge Tango',text}):navigator.clipboard.writeText(text)};
